@@ -1,0 +1,61 @@
+<div class="wrapper">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <div class="news">
+        <h2>お知らせ情報</h2>
+        <athome-customhouse-part-error
+          [errorList]="errorList"
+          [errorBottomList]="true"
+        ></athome-customhouse-part-error>
+        <article class="news-article">
+          <div class="article-header">
+            <span
+              *ngIf="(store.info$ | ngrxPush).juuyouHyouji"
+              class="label label_important"
+              >重要</span
+            >
+            <h3 class="header-title">{{ (store.info$ | ngrxPush)?.title }}</h3>
+            <span class="date">
+              {{ (store.info$ | ngrxPush)?.updatedDate }}
+            </span>
+          </div>
+          <div class="article-content">
+            <p [innerHTML]="(store.info$ | ngrxPush)?.shousai"></p>
+            <p>
+              <a href="#">{{ (store.info$ | ngrxPush)?.pdf.name }}</a>
+            </p>
+            <div class="article-content_image">
+              <img src="https://placehold.jp/400x300.png" alt="" />
+            </div>
+          </div>
+        </article>
+        <div class="submit">
+          <button
+            type="button"
+            *ngIf="(store.info$ | ngrxPush)?.previousId"
+            class="back"
+            (click)="onClickPreviousButton()"
+          >
+            <i class="fa-solid fa-angle-left"></i>
+            前へ
+          </button>
+          <button type="button" class="home">
+            <a href="/home">ホームに戻る</a>
+          </button>
+          <button
+            type="button"
+            *ngIf="(store.info$ | ngrxPush)?.nextId"
+            class="forward"
+            (click)="onClickNextButton()"
+          >
+            次へ
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>

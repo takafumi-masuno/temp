@@ -1,0 +1,27 @@
+.page-top-button {
+  position: fixed;
+  bottom: 45px;
+  right: 50px;
+  z-index: 10;
+  opacity: 0;
+  width: 40px;
+  height: 40px;
+  background: #00ae95;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.isFixedBar {
+    transform: translateY(-60px);
+  }
+
+  i {
+    color: #ffffff;
+    font-size: 18px;
+  }
+
+  &.animate__fadeIn {
+    cursor: pointer;
+  }
+}

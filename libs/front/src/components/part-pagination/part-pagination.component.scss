@@ -1,0 +1,47 @@
+.wrap {
+  .pagination {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+    &_item {
+      width: 32px;
+      height: 32px;
+      list-style: none;
+      margin-left: 8px;
+      border: solid 1px #d9d9d9;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+
+      a {
+        color: #707070;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        &:hover {
+          color: #00ae95;
+        }
+      }
+
+      &.current {
+        background: #00ae95;
+        color: #ffffff;
+        font-weight: bold;
+        cursor: default;
+
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}

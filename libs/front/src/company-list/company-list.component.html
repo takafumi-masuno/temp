@@ -1,0 +1,271 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrap">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <div class="search">
+        <h2>建築会社一覧</h2>
+        <!-- TODO: errorメッセージ -->
+        <p *ngIf="store.errorNotice$ | ngrxPush">
+          {{ (store.errorNotice$ | ngrxPush).message }}
+        </p>
+        <ng-container *ngIf="store.deletedNotice$ | ngrxPush">
+          <div class="notice">
+            <i
+              class="fa-solid fa-circle-xmark close"
+              (click)="closeDeleteNotification()"
+            ></i>
+            <p>
+              <i class="fa-regular fa-circle-check"></i>
+              建築会社情報の削除が完了しました。
+            </p>
+          </div>
+        </ng-container>
+        <div class="search-inner">
+          <form class="form">
+            <div class="form-block">
+              <div class="form-block-item">
+                <label for="memberNum">会員番号</label>
+                <input
+                  #memberNum
+                  type="text"
+                  name="memberNum"
+                  placeholder="例）000000000"
+                  [(ngModel)]="searchKaiinNo"
+                />
+              </div>
+              <div class="form-block-item">
+                <label for="tel">電話番号</label>
+                <input
+                  #tel
+                  type="tel"
+                  name="tel"
+                  placeholder="例）000-0000-0000"
+                  [(ngModel)]="searchTel"
+                />
+              </div>
+              <div class="form-block-item">
+                <label for="companyName">商号</label>
+                <ng-container
+                  *ngIf="
+                    !(storeAppFacade.user$ | ngrxPush)?.permissions
+                      .atUserKengen;
+                    else searchShougouInput
+                  "
+                >
+                  <div>{{ searchShougou }}</div>
+                </ng-container>
+                <ng-template #searchShougouInput>
+                  <input
+                    #companyName
+                    type="text"
+                    name="companyName"
+                    placeholder="例）アットホーム株式会社"
+                    [(ngModel)]="searchShougou"
+                    [disabled]="
+                      !(storeAppFacade.user$ | ngrxPush)?.permissions
+                        .atUserKengen
+                    "
+                  />
+                </ng-template>
+              </div>
+              <div class="form-block-item">
+                <label for="koukaiJoutai">公開状態</label>
+                <select
+                  #koukaiJoutai
+                  name="koukaiJoutai"
+                  [style.color]="fontColor"
+                  [(ngModel)]="selectValue"
+                  (change)="changeColor()"
+                >
+                  <ng-container *ngFor="let option of koukaiJoutaiOptions">
+                    <option [ngValue]="option.value">{{ option.nm }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-block-item">
+                <label for="companyNameKana">商号（全角カナ）</label>
+                <ng-container
+                  *ngIf="
+                    !(storeAppFacade.user$ | ngrxPush)?.permissions
+                      .atUserKengen;
+                    else searchShougouKanaInput
+                  "
+                >
+                  <div>{{ searchShougouKana }}</div>
+                </ng-container>
+                <ng-template #searchShougouKanaInput>
+                  <input
+                    #companyNameKana
+                    type="text"
+                    name="companyNameKana"
+                    placeholder="例）アットホームカブシキガイシャ"
+                    [(ngModel)]="searchShougouKana"
+                    [disabled]="
+                      !(storeAppFacade.user$ | ngrxPush)?.permissions
+                        .atUserKengen
+                    "
+                  />
+                </ng-template>
+              </div>
+            </div>
+            <div class="submit">
+              <input type="submit" value="検索する" (click)="onSearch()" />
+              <input type="reset" value="クリア" (click)="resetFontColor()" />
+            </div>
+          </form>
+        </div>
+      </div>
+      <ng-container
+        *ngIf="
+          !(store.noResult$ | ngrxPush) && (store.companies$ | ngrxPush).length
+        "
+      >
+        <div class="result">
+          <athome-customhouse-part-search-result
+            [total]="store.total$ | ngrxPush"
+            [page]="(store.companySearch$ | ngrxPush).config.page"
+            [displayNum]="(store.companySearch$ | ngrxPush).config.limitPerPage"
+          ></athome-customhouse-part-search-result>
+          <table
+            mat-table
+            [dataSource]="store.companies$ | ngrxPush"
+            matSort
+            (matSortChange)="changeSort($event)"
+            class="mat-elevation-z8"
+          >
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+
+            <!-- Shougou Column -->
+            <ng-container matColumnDef="shougou">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by shougou"
+              >
+                商号
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.shougou }}</td>
+            </ng-container>
+
+            <!-- kaishaType Column -->
+            <ng-container matColumnDef="kaishaType">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by kaishaType"
+              >
+                会社種別
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.kaishaType }}
+              </td>
+            </ng-container>
+
+            <!-- yuubinNo Column -->
+            <ng-container matColumnDef="yuubinNo">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by yuubinNo"
+              >
+                郵便番号
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.yuubinNo }}</td>
+            </ng-container>
+
+            <!-- shozaichi Column -->
+            <ng-container matColumnDef="shozaichi">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by shozaichi"
+              >
+                所在地
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.shozaichi }}
+              </td>
+            </ng-container>
+
+            <!-- tel Column -->
+            <ng-container matColumnDef="tel">
+              <th mat-header-cell *matHeaderCellDef>連絡先</th>
+              <td mat-cell *matCellDef="let element">{{ element.tel }}</td>
+            </ng-container>
+
+            <!-- koukaiJoutai Column -->
+            <ng-container matColumnDef="koukaiJoutai">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by koukaiJoutai"
+              >
+                公開状態
+              </th>
+              <td mat-cell *matCellDef="let element" class="koukaiJoutai">
+                {{ element.koukaiJoutai }}
+              </td>
+            </ng-container>
+
+            <!-- detail Column -->
+            <ng-container matColumnDef="detail">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <a href="company/{{ element.detail }}">
+                  <button type="button">詳細</button>
+                </a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{
+                koukaiJoutai_private: row.koukaiJoutai === '非公開'
+              }"
+            ></tr>
+          </table>
+
+          <athome-customhouse-part-pagination
+            [page]="(store.companySearch$ | ngrxPush).config.page"
+            [total]="store.total$ | ngrxPush"
+            [displayNum]="(store.companySearch$ | ngrxPush).config.limitPerPage"
+            (selectPageNumber)="movePage($event)"
+          ></athome-customhouse-part-pagination>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="store.noResult$ | ngrxPush">
+        <div class="no-result">
+          <div class="inner">
+            <i class="fa-solid fa-magnifying-glass icon"></i>
+            <p>
+              お探しの条件に該当する建築会社はありません。<br />
+              別の条件をお試しください。
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer></athome-customhouse-part-fixed-footer>

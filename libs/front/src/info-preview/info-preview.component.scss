@@ -1,0 +1,56 @@
+@charset 'utf-8';
+
+.news {
+  &-article {
+    margin-bottom: 40px;
+
+    .article-header {
+      margin-bottom: 40px;
+      position: relative;
+
+      .label {
+        font-size: 14px;
+        width: 60px;
+        height: 26px;
+        line-height: 26px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .header-title {
+        text-align: center;
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      .date {
+        font-size: 16px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+      }
+    }
+
+    .article-content {
+      p {
+        margin-bottom: 16px;
+
+        &:last-of-type {
+          margin-bottom: 24px;
+        }
+      }
+    }
+  }
+
+  .submit {
+    display: flex;
+    justify-content: center;
+
+    button {
+      padding: 8px 32px;
+    }
+  }
+}

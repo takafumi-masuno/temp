@@ -1,0 +1,59 @@
+<table class="info-table">
+  <colgroup>
+    <col width="220" />
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>ステータス</th>
+      <td>
+        <form
+          onsubmit="return false"
+          name="statusForm"
+          [formGroup]="statusForm"
+        >
+          <select
+            name="status"
+            formControlName="status"
+            [style.color]="fontColor"
+            (change)="changeColor($event.target.value)"
+          >
+            <option value="newReception">新規受付</option>
+            <option value="confirmed">確認済み</option>
+          </select>
+          <button
+            type="button"
+            class="statusChange"
+            (click)="changeModal.open()"
+          >
+            ステータス変更
+          </button>
+        </form>
+      </td>
+    </tr>
+    <ng-container *ngFor="let topTable of topTable; let i = index">
+      <tr>
+        <th>{{ topTable.title }}</th>
+        <td class="contentBlank">{{ topTable.content }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<table class="info-table">
+  <colgroup>
+    <col width="220" />
+  </colgroup>
+  <tbody>
+    <ng-container *ngFor="let bottomTable of bottomTable; let i = index">
+      <tr>
+        <th>{{ bottomTable.title }}</th>
+        <td class="contentBlank">{{ bottomTable.content }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+
+<!-- ステータス変更モーダル -->
+<athome-customhouse-part-modal-change-confirm
+  #changeModal
+  [conversion]="true"
+></athome-customhouse-part-modal-change-confirm>

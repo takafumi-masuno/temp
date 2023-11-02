@@ -1,0 +1,36 @@
+.error-box {
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.error-box {
+  width: 100%;
+  background: #ffffff;
+  color: #cc0033;
+  font-size: 14px;
+  font-weight: medium;
+  border: solid 1px #cc0033;
+  margin-bottom: 16px;
+  margin-top: 40px;
+
+  ul {
+    padding: 16px;
+
+    li {
+      list-style: none;
+    }
+  }
+
+  /* margin-top */
+  &.errorTop {
+    margin-top: 0;
+  }
+
+  /* margin-bottom */
+  &.errorBottom {
+    margin-bottom: 32px;
+  }
+}

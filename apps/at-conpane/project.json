@@ -1,0 +1,500 @@
+{
+  "name": "at-conpane",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/at-conpane/src",
+  "prefix": "athome-csite",
+  "targets": {
+    "build": {
+      "executor": "@angular-builders/custom-webpack:browser",
+      "options": {
+        "baseHref": "/",
+        "outputPath": "dist/at-conpane/browser",
+        "index": "apps/at-conpane/src/index.html",
+        "main": "apps/at-conpane/src/main.ts",
+        "polyfills": "apps/at-conpane/src/polyfills.ts",
+        "tsConfig": "apps/at-conpane/tsconfig.app.json",
+        "aot": true,
+        "commonChunk": false,
+        "sourceMap": true,
+        "namedChunks": true,
+        "assets": [
+          {
+            "input": "libs/front/src/shared/assets",
+            "glob": "**/*",
+            "output": "assets"
+          },
+          {
+            "input": "apps/front/src/favicon.ico",
+            "glob": "**/*",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/animate.css/animate.css",
+          "node_modules/swiper/css/swiper.min.css",
+          "node_modules/photoswipe/dist/photoswipe.css",
+          "node_modules/photoswipe/dist/default-skin/default-skin.css",
+          "node_modules/loaders.css/loaders.min.css",
+          "libs/front/src/styles.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/front/src/app/scss"]
+        },
+        "scripts": [
+          "node_modules/photoswipe/dist/photoswipe.js",
+          "node_modules/photoswipe/dist/photoswipe-ui-default.js"
+        ],
+        "allowedCommonJsDependencies": ["xml2js", "photoswipe"],
+        "crossOrigin": "anonymous",
+        "customWebpackConfig": {
+          "path": "./extra-webpack.config.js",
+          "mergeStrategies": {
+            "externals": "replace"
+          }
+        }
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpanee/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": true,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "100kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "es5": {
+          "tsConfig": "apps/at-conpane/tsconfig-es5.app.json"
+        },
+        "poc": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.poc.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ad01": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ad01.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ak01": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak01.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ak02": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak02.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ak03": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak03.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ak04": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak04.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ak05": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak05.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        },
+        "ak06": {
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak06.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "1mb"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "at-conpane:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "at-conpane:build:production"
+        },
+        "es5": {
+          "browserTarget": "at-conpane:build:es5"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "at-conpane:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/at-conpane/src/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "apps/at-conpane/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": ["{workspaceRoot}/coverage/apps/at-conpane"]
+    },
+    "server": {
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "outputPath": "dist/at-conpane/server",
+        "main": "apps/at-conpane/server.ts",
+        "tsConfig": "apps/at-conpane/tsconfig.server.json",
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/front/src/app/scss"]
+        },
+        "sourceMap": true,
+        "optimization": false
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.prod.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "poc": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.poc.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ad01": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ad01.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ak01": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak01.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ak02": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak02.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ak03": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak03.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ak04": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak04.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ak05": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak05.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "ak06": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak06.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        },
+        "stg": {
+          "outputHashing": "media",
+          "fileReplacements": [
+            {
+              "replace": "apps/at-conpane/src/environments/environment.ts",
+              "with": "apps/at-conpane/src/environments/environment.ak06.ts"
+            }
+          ],
+          "sourceMap": false,
+          "optimization": true
+        }
+      },
+      "defaultConfiguration": ""
+    },
+    "serve-ssr": {
+      "executor": "@nguniversal/builders:ssr-dev-server",
+      "options": {
+        "browserTarget": "at-conpane:build",
+        "serverTarget": "at-conpane:server"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "at-conpane:build:production",
+          "serverTarget": "at-conpane:server:production"
+        },
+        "es5": {
+          "browserTarget": "at-conpane:build:es5"
+        }
+      }
+    },
+    "prerender": {
+      "executor": "@nguniversal/builders:prerender",
+      "options": {
+        "browserTarget": "at-conpane:build:production",
+        "serverTarget": "at-conpane:server:production",
+        "routes": ["/"]
+      },
+      "configurations": {
+        "production": {}
+      }
+    }
+  },
+  "tags": ["app:conpane"]
+}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "projects": {
+    "athome-customhouse-conpane": {
+      "projectType": "application",
+      "root": "/",
+      "sourceRoot": "libs/front/src/"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

@@ -1,0 +1,35 @@
+<div
+  id="change-modal"
+  class="modal"
+  [@modal]="showChangeModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+  <div class="modal_wrapper confirm">
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <!-- 変更確認モーダル -->
+    <p *ngIf="henkou">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      入力された情報を変更します。よろしいですか。
+    </p>
+    <!-- 変更確認モーダル 同時変更 -->
+    <p *ngIf="sameTime">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>
+        他ユーザーが内容を更新しています。<br />このまま変更してよろしいですか。
+      </span>
+    </p>
+    <!-- ステータス変更確認モーダル -->
+    <p *ngIf="conversion">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      ステータスを
+      <span class="choiceText">確認済み</span>
+      に変更します。よろしいですか。
+    </p>
+    <div class="btns">
+      <button type="button" class="change" (click)="onClick()">変更する</button>
+      <button type="button" class="cancel" (click)="close()">キャンセル</button>
+    </div>
+  </div>
+</div>

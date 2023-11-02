@@ -1,0 +1,132 @@
+<div
+  id="tag-modal"
+  class="modal"
+  [ngClass]="{ show: showStoreModal }"
+  [@modal]="showStoreModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+  <div
+    #modalWrapper
+    class="modal_wrapper"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3>店舗選択</h3>
+    <form onsubmit="return false">
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <table>
+            <thead>
+              <th></th>
+              <th>店舗</th>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <input
+                    type="radio"
+                    name="store"
+                    id="store0"
+                    value=""
+                    [(ngModel)]="selected"
+                  />
+                  <label for="store0"></label>
+                </th>
+                <td>
+                  <label for="store0">店舗を指定しない</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <input
+                    type="radio"
+                    name="store"
+                    id="store1"
+                    value="東京支店"
+                    [(ngModel)]="selected"
+                  />
+                  <label for="store1"></label>
+                </th>
+                <td>
+                  <label for="store1">東京支店</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <input
+                    type="radio"
+                    name="store"
+                    id="store2"
+                    value="埼玉支店"
+                    [(ngModel)]="selected"
+                  />
+                  <label for="store2"></label>
+                </th>
+                <td>
+                  <label for="store2">埼玉支店</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <input
+                    type="radio"
+                    name="store"
+                    id="store3"
+                    value="テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト"
+                    [(ngModel)]="selected"
+                  />
+                  <label for="store3"></label>
+                </th>
+                <td>
+                  <label for="store3"
+                    >テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</label
+                  >
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <input
+                    type="radio"
+                    name="store"
+                    id="store4"
+                    value="○○支店1"
+                    [(ngModel)]="selected"
+                  />
+                  <label for="store4"></label>
+                </th>
+                <td>
+                  <label for="store4">○○支店1</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <input
+                    type="radio"
+                    name="store"
+                    id="store5"
+                    value="○○支店2"
+                    [(ngModel)]="selected"
+                  />
+                  <label for="store5"></label>
+                </th>
+                <td>
+                  <label for="store5">○○支店2</label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="button"
+          value="決定する"
+          (click)="close(); passStore(selected)"
+        />
+        <input type="reset" value="キャンセル" (click)="close()" />
+      </div>
+    </form>
+  </div>
+</div>

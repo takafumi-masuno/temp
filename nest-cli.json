@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "projects": {
+    "athome-customhouse-conpane-bff": {
+      "projectType": "application",
+      "sourceRoot": "apps/at-bff/src/app"
+    }
+  }
+}

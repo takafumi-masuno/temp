@@ -1,0 +1,12 @@
+<div *ngIf="deleted" class="notice">
+  <i class="fa-solid fa-circle-xmark close" (click)="close()"></i>
+  <p>
+    <i class="fa-regular fa-circle-check"></i>
+    <span *ngIf="!userConfirm">
+      {{ selectedItem }}情報の削除が完了しました。
+    </span>
+    <span *ngIf="userConfirm">
+      ご登録のメールアドレスにユーザーIDを送信いたします。<br />メールよりご確認をお願いいたします。
+    </span>
+  </p>
+</div>

@@ -1,0 +1,105 @@
+@charset 'utf-8';
+
+.search {
+  &-inner {
+    .form {
+      &-block {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 16px;
+      }
+    }
+  }
+}
+
+.result {
+  .scroll-contents {
+    .mdc-data-table {
+      &__header {
+        &-cell {
+          &.cdk-column {
+            &-catalogMedia {
+              word-break: keep-all;
+            }
+          }
+
+          &.fixed {
+            &:nth-child(2) {
+              left: 48px;
+            }
+
+            &:nth-child(3) {
+              left: 268px;
+            }
+          }
+        }
+      }
+
+      &__cell {
+        &.cdk-column {
+          &-shougou {
+            min-width: 220px;
+            max-width: 220px;
+          }
+
+          &-catalogNm {
+            min-width: 220px;
+            max-width: 220px;
+          }
+
+          &-catalogGaiyou {
+            min-width: 356px;
+            max-width: 356px;
+          }
+
+          &-catalogType {
+            width: 143px;
+            word-break: keep-all;
+          }
+
+          &-catalogMedia {
+            width: 141px;
+            text-align: center;
+          }
+
+          &-catalogTag {
+            min-width: 328px;
+
+            .tags {
+              width: max-content;
+              max-width: 520px;
+            }
+          }
+        }
+
+        &.fixed {
+          &:nth-child(2) {
+            left: 48px;
+          }
+
+          &:nth-child(3) {
+            left: 268px;
+          }
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .result {
+    .mat-sort-header-arrow {
+      display: none;
+    }
+  }
+}
+
+.sortNone {
+  &::before {
+    background: none;
+    box-shadow: none;
+    border: none;
+  }
+  &::after {
+    content: '';
+  }
+}

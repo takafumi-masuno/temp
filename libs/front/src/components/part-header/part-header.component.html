@@ -1,0 +1,42 @@
+<header class="header">
+  <div class="header__logo">
+    <a href="/" class="">
+      <img
+        [src]="'assets/images/athome-logo.jpg'"
+        width="115"
+        height="auto"
+        alt="athome"
+      />
+      注文住宅ツール
+    </a>
+  </div>
+  <div class="header__stage">
+    <p>○○環境</p>
+    <div class="logout" *ngIf="!isLogin">
+      <p>{{ (storeAppFacade.user$ | ngrxPush)?.info?.nm }}</p>
+      <form method="get" action="/direct/login/logout/">
+        <input type="hidden" name="Return_URL" value="/login/" />
+        <input type="button" value="ログアウト" (click)="open()" />
+      </form>
+    </div>
+  </div>
+</header>
+
+<div class="modal" [@modal]="modal ? 'open' : 'close'">
+  <div class="modal_bg" (click)="close()"></div>
+  <div class="modal_wrapper confirm">
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <p>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      ログアウトします。よろしいですか。
+    </p>
+    <div class="btns">
+      <button type="button" class="logout" (click)="close()">
+        ログアウトする
+      </button>
+      <button type="button" class="cancel" (click)="close()">キャンセル</button>
+    </div>
+  </div>
+</div>

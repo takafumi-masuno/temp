@@ -1,0 +1,1329 @@
+<div
+  id="ensenSearch-modal"
+  class="modal"
+  [ngClass]="{ show: showEnsenSearchModal }"
+  [@modal]="showEnsenSearchModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+  <div
+    class="modal_wrapper"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <form onsubmit="return false" [formGroup]="prefectureList">
+      <!-- 都道府県選択 -->
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <div *ngIf="prefecture">
+            <h4>沿線駅選択</h4>
+            <p>都道府県を選択してください。</p>
+            <cdk-accordion class="accordion">
+              <cdk-accordion-item
+                *ngFor="let item of prefectures; let index = index"
+                #accordionItem="cdkAccordionItem"
+                class="accordion-item"
+                role="button"
+                tabindex="0"
+                [attr.id]="'accordion-header-' + index"
+                [attr.aria-expanded]="accordionItem.expanded"
+                [attr.aria-controls]="'accordion-body-' + index"
+              >
+                <div
+                  class="accordion-item-header"
+                  (click)="accordionItem.toggle(); isContentOver()"
+                >
+                  <span class="accordion-item-description">
+                    <i
+                      [ngClass]="
+                        accordionItem.expanded
+                          ? 'fa-solid fa-circle-minus'
+                          : 'fa-solid fa-circle-plus'
+                      "
+                      [style.transform]="
+                        accordionItem.expanded ? '' : 'rotate(-180deg)'
+                      "
+                    ></i>
+                  </span>
+                  {{ item }}
+                </div>
+                <div
+                  class="accordion-item-body"
+                  role="region"
+                  [style.height]="accordionItem.expanded ? '' : '0'"
+                  [attr.id]="'accordion-body-' + index"
+                  [attr.aria-labelledby]="'accordion-header-' + index"
+                  [@accordion]="accordionItem.expanded ? 'open' : 'close'"
+                >
+                  <ul *ngIf="index === 0">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="北海道"
+                        id="hokkaido"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="hokkaido"
+                      >
+                        <span>北海道</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="青森県"
+                        id="aomori"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="aomori"
+                      >
+                        <span>青森県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="岩手県"
+                        id="iwate"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="iwate"
+                      >
+                        <span>岩手県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="秋田県"
+                        id="akita"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="akita"
+                      >
+                        <span>秋田県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="宮城県"
+                        id="miyagi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="miyagi"
+                      >
+                        <span>宮城県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="山形県"
+                        id="yamagata"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="yamagata"
+                      >
+                        <span>山形県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="福島県"
+                        id="fukushima"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="fukushima"
+                      >
+                        <span>福島県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 1">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="東京都"
+                        id="tokyo"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="tokyo"
+                      >
+                        <span>東京都</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="神奈川県"
+                        id="kanagawa"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kanagawa"
+                      >
+                        <span>神奈川県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="千葉県"
+                        id="chiba"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="chiba"
+                      >
+                        <span>千葉県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="埼玉県"
+                        id="saitama"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="saitama"
+                      >
+                        <span>埼玉県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="群馬県"
+                        id="gunma"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="gunma"
+                      >
+                        <span>群馬県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="栃木県"
+                        id="tochigi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="tochigi"
+                      >
+                        <span>栃木県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="茨城県"
+                        id="ibaragi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="ibaragi"
+                      >
+                        <span>茨城県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 2">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="山梨県"
+                        id="yamanashi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="yamanashi"
+                      >
+                        <span>山梨県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="長野県"
+                        id="nagano"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="nagano"
+                      >
+                        <span>長野県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="新潟県"
+                        id="nigata"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="nigata"
+                      >
+                        <span>新潟県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="石川県"
+                        id="ishikawa"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="ishikawa"
+                      >
+                        <span>石川県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="富山県"
+                        id="toyama"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="toyama"
+                      >
+                        <span>富山県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="福井県"
+                        id="fukui"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="fukui"
+                      >
+                        <span>福井県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 3">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="愛知県"
+                        id="aichi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="aichi"
+                      >
+                        <span>愛知県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="静岡県"
+                        id="shizuoka"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="shizuoka"
+                      >
+                        <span>静岡県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="岐阜県"
+                        id="gifu"
+                      />
+                      <label (click)="isSelected(); isContentOver()" for="gifu">
+                        <span>岐阜県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="三重県"
+                        id="mie"
+                      />
+                      <label (click)="isSelected(); isContentOver()" for="mie">
+                        <span>三重県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 4">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="大阪府"
+                        id="osaka"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="osaka"
+                      >
+                        <span>大阪府</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="兵庫県"
+                        id="hyogo"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="hyogo"
+                      >
+                        <span>兵庫県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="京都府"
+                        id="kyoto"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kyoto"
+                      >
+                        <span>京都府</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="滋賀県"
+                        id="shiga"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="shiga"
+                      >
+                        <span>滋賀県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="奈良県"
+                        id="nara"
+                      />
+                      <label (click)="isSelected(); isContentOver()" for="nara">
+                        <span>奈良県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="和歌山県"
+                        id="wakayama"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="wakayama"
+                      >
+                        <span>和歌山県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 5">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="広島県"
+                        id="hiroshima"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="hiroshima"
+                      >
+                        <span>広島県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="岡山県"
+                        id="okayama"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="okayama"
+                      >
+                        <span>岡山県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="鳥取県"
+                        id="tottori"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="tottori"
+                      >
+                        <span>鳥取県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="島根県"
+                        id="shimane"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="shimane"
+                      >
+                        <span>島根県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="山口県"
+                        id="yamaguchi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="yamaguchi"
+                      >
+                        <span>山口県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 6">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="香川県"
+                        id="kagawa"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kagawa"
+                      >
+                        <span>香川県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="愛媛県"
+                        id="ehime"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="ehime"
+                      >
+                        <span>愛媛県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="徳島県"
+                        id="tokushima"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="tokushima"
+                      >
+                        <span>徳島県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="高知県"
+                        id="kochi"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kochi"
+                      >
+                        <span>高知県</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 7">
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="福岡県"
+                        id="fukuoka"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="fukuoka"
+                      >
+                        <span>福岡県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="佐賀県"
+                        id="saga"
+                      />
+                      <label (click)="isSelected(); isContentOver()" for="saga">
+                        <span>佐賀県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="長崎県"
+                        id="nagasaki"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="nagasaki"
+                      >
+                        <span>長崎県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="熊本県"
+                        id="kumamoto"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kumamoto"
+                      >
+                        <span>熊本県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="大分県"
+                        id="oita"
+                      />
+                      <label (click)="isSelected(); isContentOver()" for="oita">
+                        <span>大分県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="宮崎県"
+                        id="miyazaki"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="miyazaki"
+                      >
+                        <span>宮崎県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="鹿児島県"
+                        id="kagoshima"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kagoshima"
+                      >
+                        <span>鹿児島県</span>
+                      </label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="selectPrefecture"
+                        [formControl]="selectPrefecture"
+                        value="沖縄県"
+                        id="okinawa"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="okinawa"
+                      >
+                        <span>沖縄県</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </cdk-accordion-item>
+            </cdk-accordion>
+          </div>
+
+          <!-- 沿線選択 -->
+          <div *ngIf="line">
+            <h4>沿線駅選択</h4>
+            <p>路線を選択してください。</p>
+            <cdk-accordion class="accordion line">
+              <cdk-accordion-item
+                *ngFor="let item of lines; let index = index"
+                #accordionItem="cdkAccordionItem"
+                class="accordion-item"
+                role="button"
+                tabindex="0"
+                [attr.id]="'accordion-header-' + index"
+                [attr.aria-expanded]="accordionItem.expanded"
+                [attr.aria-controls]="'accordion-body-' + index"
+              >
+                <div
+                  class="accordion-item-header"
+                  (click)="accordionItem.toggle(); isContentOver()"
+                >
+                  <span class="accordion-item-description">
+                    <i
+                      [ngClass]="
+                        accordionItem.expanded
+                          ? 'fa-solid fa-circle-minus'
+                          : 'fa-solid fa-circle-plus'
+                      "
+                      [style.transform]="
+                        accordionItem.expanded ? '' : 'rotate(-180deg)'
+                      "
+                    ></i>
+                  </span>
+                  {{ item }}
+                </div>
+                <div
+                  class="accordion-item-body"
+                  role="region"
+                  [style.height]="accordionItem.expanded ? '' : '0'"
+                  [attr.id]="'accordion-body-' + index"
+                  [attr.aria-labelledby]="'accordion-header-' + index"
+                  [@accordion]="accordionItem.expanded ? 'open' : 'close'"
+                >
+                  <ul *ngIf="index === 0">
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="ＪＲ奥羽本線"
+                        id="jrOuuhonsen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="jrOuuhonsen"
+                      >
+                        <span>ＪＲ奥羽本線</span>
+                      </label>
+                    </li>
+                    <li class="red">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="ＪＲ八戸線"
+                        id="jrHachinohesen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="jrHachinohesen"
+                      >
+                        <span>ＪＲ八戸線</span>
+                      </label>
+                    </li>
+                    <li class="dblue">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="ＪＲ五能線"
+                        id="jrGonousen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="jrGonousen"
+                      >
+                        <span>ＪＲ五能線</span>
+                      </label>
+                    </li>
+                    <li class="yellow">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="ＪＲ大湊線"
+                        id="jrOominatosen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="jrOominatosen"
+                      >
+                        <span>ＪＲ大湊線</span>
+                      </label>
+                    </li>
+                    <li class="blue">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="ＪＲ津軽線"
+                        id="jrTsugarusen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="jrTsugarusen"
+                      >
+                        <span>ＪＲ津軽線</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 1">
+                    <li class="dgreen">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="東北新幹線"
+                        id="tohokuShinkansen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="tohokuShinkansen"
+                      >
+                        <span>東北新幹線</span>
+                      </label>
+                    </li>
+                    <li class="pgreen">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="北海道新幹線"
+                        id="hokkaidoShinkansen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="hokkaidoShinkansen"
+                      >
+                        <span>北海道新幹線</span>
+                      </label>
+                    </li>
+                  </ul>
+                  <ul *ngIf="index === 2">
+                    <li class="orange">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="弘南鉄道大鰐線"
+                        id="kounantetsudoOniwasen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kounantetsudoOniwasen"
+                      >
+                        <span>弘南鉄道大鰐線</span>
+                      </label>
+                    </li>
+                    <li class="pblue">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="弘南鉄道弘南線"
+                        id="kounantetsudoKounansen"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kounantetsudoKounansen"
+                      >
+                        <span>弘南鉄道弘南線</span>
+                      </label>
+                    </li>
+                    <li class="sblue">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="青い森鉄道"
+                        id="aoimoritetsudo"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="aoimoritetsudo"
+                      >
+                        <span>青い森鉄道</span>
+                      </label>
+                    </li>
+                    <li class="lgray">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="津軽鉄道"
+                        id="tsugarutetsudo"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="tsugarutetsudo"
+                      >
+                        <span>津軽鉄道</span>
+                      </label>
+                    </li>
+                    <li class="navy">
+                      <input
+                        type="radio"
+                        name="selectLine"
+                        [formControl]="selectLine"
+                        value="いわて銀河鉄道線"
+                        id="iwategingatetsudo"
+                        [(ngModel)]="selectedLine"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="iwategingatetsudo"
+                      >
+                        <span>いわて銀河鉄道線</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </cdk-accordion-item>
+            </cdk-accordion>
+          </div>
+
+          <!-- 駅選択 -->
+          <div *ngIf="station">
+            <h4>沿線駅選択</h4>
+            <p>駅を選択してください。</p>
+            <cdk-accordion class="accordion station">
+              <cdk-accordion-item
+                *ngFor="let item of stations; let index = index"
+                #accordionItem="cdkAccordionItem"
+                class="accordion-item"
+                role="button"
+                tabindex="0"
+                [attr.id]="'accordion-header-' + index"
+                [attr.aria-expanded]="accordionItem.expanded"
+                [attr.aria-controls]="'accordion-body-' + index"
+              >
+                <div
+                  class="accordion-item-header dorange"
+                  (click)="accordionItem.toggle(); isContentOver()"
+                >
+                  <span class="accordion-item-description">
+                    <i
+                      [ngClass]="
+                        accordionItem.expanded
+                          ? 'fa-solid fa-circle-minus'
+                          : 'fa-solid fa-circle-plus'
+                      "
+                      [style.transform]="
+                        accordionItem.expanded ? '' : 'rotate(-180deg)'
+                      "
+                    ></i>
+                  </span>
+                  {{ item }}
+                </div>
+                <div
+                  class="accordion-item-body"
+                  role="region"
+                  [style.height]="accordionItem.expanded ? '' : '0'"
+                  [attr.id]="'accordion-body-' + index"
+                  [attr.aria-labelledby]="'accordion-header-' + index"
+                  [@accordion]="accordionItem.expanded ? 'open' : 'close'"
+                >
+                  <ul *ngIf="index === 0">
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="福島"
+                        id="fukushima2"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="fukushima2"
+                      >
+                        <span>福島</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="笹木野"
+                        id="sasakino"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="sasakino"
+                      >
+                        <span>笹木野</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="庭坂"
+                        id="niwasaka"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="niwasaka"
+                      >
+                        <span>庭坂</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="板谷"
+                        id="itaya"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="itaya"
+                      >
+                        <span>板谷</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="峠"
+                        id="touge"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="touge"
+                      >
+                        <span>峠</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="大沢"
+                        id="oosawa"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="oosawa"
+                      >
+                        <span>大沢</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="関根"
+                        id="sekine"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="sekine"
+                      >
+                        <span>関根</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="米沢"
+                        id="yonezawa"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="yonezawa"
+                      >
+                        <span>米沢</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="置賜"
+                        id="okitama"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="okitama"
+                      >
+                        <span>置賜</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="高畠"
+                        id="takahata"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="takahata"
+                      >
+                        <span>高畠</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="赤湯"
+                        id="akayu"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="akayu"
+                      >
+                        <span>赤湯</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="中川"
+                        id="nakagawa"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="nakagawa"
+                      >
+                        <span>中川</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="羽前中山"
+                        id="uzennakayama"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="uzennakayama"
+                      >
+                        <span>羽前中山</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="かみのやま温泉"
+                        id="kaminoyamaonsen"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="kaminoyamaonsen"
+                      >
+                        <span>かみのやま温泉</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="茂吉記念館前"
+                        id="mokichikinenkanmae"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="mokichikinenkanmae"
+                      >
+                        <span>茂吉記念館前</span>
+                      </label>
+                    </li>
+                    <li class="dorange">
+                      <input
+                        type="radio"
+                        name="selectStation"
+                        [formControl]="selectStation"
+                        value="蔵王"
+                        id="zaou"
+                        [(ngModel)]="selectedStation"
+                      />
+                      <label
+                        (click)="isSelected(); isContentOver()"
+                        for="yamagata"
+                      >
+                        <span>蔵王</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </cdk-accordion-item>
+            </cdk-accordion>
+          </div>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="button"
+          value="選択する"
+          (click)="passEnsen(selectedLine, selectedStation); close()"
+        />
+        <input type="reset" value="キャンセル" (click)="close()" />
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,370 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrap">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <div class="search">
+        <h2>建築事例一覧</h2>
+        <div *ngIf="deleted" class="notice">
+          <i class="fa-solid fa-circle-xmark close" (click)="close()"></i>
+          <p>
+            <i class="fa-regular fa-circle-check"></i>
+            建築事例情報の削除が完了しました。
+          </p>
+        </div>
+        <div class="search-inner">
+          <form class="form">
+            <div class="form-block">
+              <div class="form-block-item">
+                <label for="companyName"
+                  >商号
+                  <span *ngIf="atUserKengen" class="label necessary">必須</span>
+                </label>
+                <input
+                  *ngIf="atUserKengen"
+                  type="text"
+                  [(ngModel)]="shougou"
+                  placeholder="例）アットホーム株式会社"
+                  required
+                />
+                <p *ngIf="!atUserKengen">
+                  {{ (storeAppFacade.user$ | ngrxPush)?.info?.shougou }}
+                </p>
+              </div>
+              <div class="form-block-item form-block-item--date">
+                <label for="completionDate">竣工年月</label>
+                <input
+                  type="date"
+                  [(ngModel)]="shunkouNentukiFrom"
+                  value="年-月-日"
+                />
+                <span>～</span>
+                <input
+                  type="date"
+                  [(ngModel)]="shunkouNentukiTo"
+                  value="年-月-日"
+                />
+              </div>
+              <div class="form-block-item">
+                <label for="companyNameKana">商号（全角カナ）</label>
+                <input
+                  *ngIf="atUserKengen"
+                  type="text"
+                  [(ngModel)]="shougouKana"
+                  placeholder="例）アットホームカブシキガイシャ"
+                />
+                <p *ngIf="!atUserKengen">
+                  {{ (storeAppFacade.user$ | ngrxPush)?.info?.shougouKana }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <label for="floorPlanClassification">間取り区分</label>
+                <select
+                  [(ngModel)]="madoriKubun"
+                  [style.color]="fontColor"
+                  (change)="changeColor($event.target.value)"
+                >
+                  <option [value]="undefined">すべて</option>
+                  <option
+                    *ngFor="let segment of segmentValues.MADORI_KUBUN"
+                    [value]="segment.value"
+                  >
+                    {{ segment.nm }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-block-item">
+                <label for="constructionMethod">建築工法</label>
+                <select
+                  [(ngModel)]="kenchikuKouhou"
+                  [style.color]="fontColor"
+                  (change)="changeColor($event.target.value)"
+                >
+                  <option [value]="undefined">すべて</option>
+
+                  <option
+                    *ngFor="let segment of segmentValues.KENCHIKU_KOUHOU_KUBUN"
+                    [value]="segment.value"
+                  >
+                    {{ segment.nm }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-block-item">
+                <label for="status">公開状態</label>
+                <select
+                  [(ngModel)]="koukaiJoutai"
+                  [style.color]="fontColor"
+                  (change)="changeColor($event.target.value)"
+                >
+                  <option [value]="undefined">すべて</option>
+                  <option
+                    *ngFor="let segment of segmentValues.KOUKAI_JOUTAI"
+                    [value]="segment.value"
+                  >
+                    {{ segment.nm }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-block-item form-block-item--date">
+                <label for="price">価格帯</label>
+                <select
+                  [(ngModel)]="kakakutaiFrom"
+                  [style.color]="fontColor"
+                  (change)="changeColor($event.target.value)"
+                >
+                  <option [value]="undefined">下限なし</option>
+                  <option
+                    *ngFor="let segment of segmentValues.KAKAKUTAI_FROM"
+                    [value]="segment.value"
+                  >
+                    {{ segment.nm }}
+                  </option>
+                </select>
+                <span>～</span>
+                <select
+                  [(ngModel)]="kakakutaiTo"
+                  [style.color]="fontColor"
+                  (change)="changeColor($event.target.value)"
+                >
+                  <option [value]="undefined">上限なし</option>
+                  <option
+                    *ngFor="let segment of segmentValues.KAKAKUTAI_TO"
+                    [value]="segment.value"
+                  >
+                    {{ segment.nm }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="submit">
+              <input
+                (click)="searchPrecedentList()"
+                type="submit"
+                value="検索する"
+              />
+              <input type="reset" value="クリア" (click)="fontColorReset()" />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div *ngIf="store.result$ | async as result">
+        <div
+          class="result"
+          *ngIf="(store?.result$ | ngrxPush)?.precedentDataList.length"
+        >
+          <athome-customhouse-part-search-result
+            [total]="(store?.result$ | ngrxPush)?.total"
+            [page]="(store?.result$ | ngrxPush)?.page"
+            [displayNum]="(store?.result$ | ngrxPush)?.precedentDataList.length"
+          ></athome-customhouse-part-search-result>
+          <div class="scroll-contents">
+            <table
+              mat-table
+              [dataSource]="(store?.result$ | ngrxPush)?.precedentDataList"
+              matSort
+              (matSortChange)="announceSortChange($event)"
+              class="mat-elevation-z8"
+            >
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef class="fixed"></th>
+                <td
+                  mat-cell
+                  *matCellDef="let element; let i = index"
+                  class="fixed"
+                >
+                  {{ i + 1 }}
+                </td>
+              </ng-container>
+
+              <!-- shougou Column -->
+              <ng-container matColumnDef="shougou">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by shougou"
+                  class="fixed"
+                >
+                  商号
+                </th>
+                <td mat-cell *matCellDef="let element" class="fixed">
+                  {{ element.shougou }}
+                </td>
+              </ng-container>
+
+              <!-- Image Column -->
+              <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef class="fixed image">
+                  メイン画像
+                </th>
+                <td mat-cell *matCellDef="let element" class="fixed">
+                  <img
+                    *ngIf="element.image"
+                    [src]="element.image"
+                    class="image"
+                  />
+                  <img
+                    *ngIf="!element.image"
+                    [src]="'/assets/images/no-image.png'"
+                    class="image"
+                  />
+                </td>
+              </ng-container>
+
+              <!-- Price Column -->
+              <ng-container matColumnDef="price">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by price"
+                >
+                  本体価格
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.price }}万円
+                </td>
+              </ng-container>
+
+              <!-- ConstructionMethod Column -->
+              <ng-container matColumnDef="kenchiku_kouhou">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by kenchiku_kouhou"
+                >
+                  建築工法
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.kenchikuKouhou }}
+                </td>
+              </ng-container>
+
+              <!-- SiteArea Column -->
+              <ng-container matColumnDef="shikichi_menseki">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by shikichi_menseki"
+                >
+                  敷地面積
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.shikichiMenseki }}
+                </td>
+              </ng-container>
+
+              <!-- TotalFloorArea Column -->
+              <ng-container matColumnDef="nobeyuka_menseki">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by nobeyuka_menseki"
+                >
+                  延床面積
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.nobeyukaMenseki }}
+                </td>
+              </ng-container>
+
+              <!-- CompletionDate Column -->
+              <ng-container matColumnDef="shunkou_nentuki">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by shunkou_nentuki"
+                >
+                  竣工年月
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.shunkouNentuki }}
+                </td>
+              </ng-container>
+
+              <!-- floorPlanClassification Column -->
+              <ng-container matColumnDef="madori_kubun">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by madori_kubun"
+                >
+                  間取り区分
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.madoriKubun }}
+                </td>
+              </ng-container>
+
+              <!-- status Column -->
+              <ng-container matColumnDef="koukai_joutai">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by koukai_joutai"
+                >
+                  公開状況
+                </th>
+                <td mat-cell *matCellDef="let element" class="koukai_joutai">
+                  {{ element.koukaiJoutai }}
+                </td>
+              </ng-container>
+
+              <!-- detail Column -->
+              <ng-container matColumnDef="detail">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <a href="{{ element.kenchikuJireiId }}">
+                    <button type="button">詳細</button>
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ status_private: row.koukaiJoutai === '非公開' }"
+              ></tr>
+            </table>
+          </div>
+
+          <athome-customhouse-part-pagination
+            [page]="(store.result$ | ngrxPush).page"
+            [total]="(store.result$ | ngrxPush).total"
+            [displayNum]="(store.result$ | ngrxPush).precedentDataList.length"
+            (selectPageNumber)="onClickPageNationButtonClick($event, shougou)"
+          ></athome-customhouse-part-pagination>
+        </div>
+        <div
+          *ngIf="!(store?.result$ | ngrxPush)?.precedentDataList.length"
+          class="no-result"
+        >
+          <div class="inner">
+            <i class="fa-solid fa-magnifying-glass icon"></i>
+            <p>
+              お探しの条件に該当する建築会社はありません。<br />
+              別の条件をお試しください。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer></athome-customhouse-part-fixed-footer>

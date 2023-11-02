@@ -1,0 +1,42 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrap">
+  <ul class="pagination">
+    <li *ngIf="page !== 1" class="pagination_item">
+      <a (click)="selectPage(1)">
+        <i class="fa-solid fa-angles-left"></i>
+      </a>
+    </li>
+    <li *ngIf="page !== 1" class="pagination_item">
+      <a (click)="selectPage(page - 1)">
+        <i class="fa-solid fa-angle-left"></i>
+      </a>
+    </li>
+    <ng-container *ngFor="let pagination of paginationList">
+      <ng-container *ngIf="pagination === page; else notCurrentPage">
+        <li class="pagination_item current">
+          <span>{{ pagination }}</span>
+        </li>
+      </ng-container>
+      <ng-template #notCurrentPage>
+        <li class="pagination_item">
+          <a (click)="selectPage(pagination)">{{ pagination }}</a>
+        </li>
+      </ng-template>
+    </ng-container>
+    <li *ngIf="totalPage !== page" class="pagination_item">
+      <a (click)="selectPage(page + 1)">
+        <i class="fa-solid fa-angle-right"></i>
+      </a>
+    </li>
+    <li *ngIf="totalPage !== page" class="pagination_item">
+      <a (click)="selectPage(totalPage)">
+        <i class="fa-solid fa-angles-right"></i>
+      </a>
+    </li>
+  </ul>
+</div>

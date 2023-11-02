@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="container-inner">
+      <div class="header box-with-red-line">
+        <div class="header-inner">
+          <p class="header-title">hoge</p>
+          <p>ユーザーID:{{ (user$ | ngrxPush)?.info?.userId }}</p>
+          <p>名前:{{ (user$ | ngrxPush)?.info?.nm }}</p>
+          <p>商号:{{ shougou$ | ngrxPush }}</p>
+          <p>商号カナ:{{ (user$ | ngrxPush)?.info?.shougouKana }}</p>
+          <p>
+            店舗・モデルハウス名:{{
+              (user$ | ngrxPush)?.info?.tenpoModelHouseNm
+            }}
+          </p>
+          <p>アットホームユーザー権限:{{ atPermissions$ | ngrxPush }}</p>
+          <p>
+            建築会社ユーザー権限:{{
+              (user$ | ngrxPush)?.permissions?.kenchikuKaishaUserKengen
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

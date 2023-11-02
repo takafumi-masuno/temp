@@ -1,0 +1,123 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrapper">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <h2>カタログ詳細</h2>
+      <div class="register">
+        <form class="form">
+          <div class="box">
+            <div class="form-block">
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  商号
+                  <span class="label necessary">必須</span>
+                </p>
+                <p class="form-block-item_text">
+                  {{ (store.catalog$ | ngrxPush)?.shougou }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  カタログ種別
+                  <span class="label necessary">必須</span>
+                </p>
+                <p class="form-block-item_text">
+                  {{ (store.catalog$ | ngrxPush)?.catalogType }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">カタログメディア</p>
+                <p class="form-block-item_text">
+                  {{ (store.catalog$ | ngrxPush)?.catalogMedia }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  カタログ名
+                  <span class="label necessary">必須</span>
+                </p>
+                <p class="form-block-item_text">
+                  {{ (store.catalog$ | ngrxPush)?.catalogNm }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  カタログ概要
+                  <span class="label necessary">必須</span>
+                </p>
+                <p class="form-block-item_text">
+                  {{ (store.catalog$ | ngrxPush)?.catalogGaiyou }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">カタログタグ</p>
+                <ul class="tags">
+                  <ng-container
+                    *ngFor="let tag of (store.catalog$ | ngrxPush)?.catalogTag"
+                  >
+                    <li>
+                      <span>{{ tag }}</span>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">カタログ画像</p>
+                <div
+                  *ngIf="(store.catalog$ | ngrxPush)?.catalogGazou"
+                  class="image-box"
+                >
+                  <div class="image">
+                    <img
+                      [src]="(store.catalog$ | ngrxPush)?.catalogGazou.src"
+                      alt=""
+                    />
+                  </div>
+                  <p class="file-name">
+                    {{ (store.catalog$ | ngrxPush)?.catalogGazou.name }}
+                  </p>
+                </div>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  公開状態
+                  <span class="label necessary">必須</span>
+                </p>
+                <p class="form-block-item_text">
+                  {{ (store.catalog$ | ngrxPush)?.koukaiJoutai }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="submit detailPreview">
+            <div class="btns">
+              <button class="back" (click)="router.navigate(['catalog'])">
+                <i class="fa-solid fa-angle-left"></i>
+                戻る
+              </button>
+            </div>
+            <input type="button" value="変更する" />
+            <button class="delete" type="button" (click)="deleteModal.open()">
+              削除する
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer></athome-customhouse-part-fixed-footer>
+
+<!-- 削除確認モーダル -->
+<athome-customhouse-part-modal-delete-confirm
+  #deleteModal
+  (clickDelete)="onClickCatalogDelete()"
+></athome-customhouse-part-modal-delete-confirm>

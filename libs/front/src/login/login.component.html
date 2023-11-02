@@ -1,0 +1,60 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrapper">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div *ngIf="errorMessages.length > 0" class="error-box">
+    <athome-customhouse-part-error
+      [errorList]="errorMessages"
+      [errorTopList]="true"
+      [errorBottomList]="true"
+    ></athome-customhouse-part-error>
+  </div>
+
+  <div
+    [ngClass]="
+      errorMessages.length > 0 && !isExpired ? 'login-box2' : 'login-box'
+    "
+  >
+    <div class="login-inner">
+      <form #loginForm="ngForm">
+        <div class="form-block">
+          <label for="userId">ユーザーID</label>
+          <input
+            type="text"
+            name="userId"
+            id="userId"
+            [(ngModel)]="userId"
+            required
+          />
+        </div>
+        <div class="form-block">
+          <label for="password">パスワード</label>
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+          />
+        </div>
+        <div class="submit">
+          <input
+            type="submit"
+            value="ログイン"
+            [disabled]="!loginForm.form.valid"
+            (click)="loginPostSend()"
+          />
+        </div>
+      </form>
+      <ul class="links">
+        <li><a href="/user/confirm">ユーザーIDを忘れた場合はこちら</a></li>
+        <li><a href="/password/reset">パスワードを忘れた場合はこちら</a></li>
+      </ul>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer></athome-customhouse-part-fixed-footer>

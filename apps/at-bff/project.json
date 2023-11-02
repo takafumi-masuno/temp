@@ -1,0 +1,179 @@
+{
+  "name": "at-bff",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/at-bff/src",
+  "projectType": "application",
+  "prefix": "at-bff",
+  "generators": {},
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "options": {
+        "outputPath": "dist/apps/at-bff",
+        "main": "apps/at-bff/src/main.ts",
+        "tsConfig": "apps/at-bff/tsconfig.app.json",
+        "assets": ["apps/at-bff/src/assets"],
+        "compiler": "tsc",
+        "target": "node"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.prod.ts"
+            }
+          ]
+        },
+        "poc": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.poc.ts"
+            }
+          ]
+        },
+        "ad01": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ad01.ts"
+            }
+          ]
+        },
+        "ap01": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ap01.ts"
+            }
+          ]
+        },
+        "ak01": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak01.ts"
+            }
+          ]
+        },
+        "ak02": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak02.ts"
+            }
+          ]
+        },
+        "ak03": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak03.ts"
+            }
+          ]
+        },
+        "ak04": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak04.ts"
+            }
+          ]
+        },
+        "ak05": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak05.ts"
+            }
+          ]
+        },
+        "ak06": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak06.ts"
+            }
+          ]
+        },
+        "ak51": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak51.ts"
+            }
+          ]
+        },
+        "ak52": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/at-bff/src/environments/environment.ts",
+              "with": "apps/at-bff/src/environments/environment.ak52.ts"
+            }
+          ]
+        }
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "at-bff:build",
+        "inspect": true,
+        "port": 7701
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/at-bff/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "apps/at-bff/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["{workspaceRoot}/coverage/apps/at-bff"]
+    }
+  },
+  "tags": ["app:bff"]
+}

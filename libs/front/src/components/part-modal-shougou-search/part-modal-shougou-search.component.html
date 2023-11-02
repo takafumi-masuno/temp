@@ -1,0 +1,110 @@
+<div
+  id="tag-modal"
+  class="modal"
+  [ngClass]="{ show: showShougouModal }"
+  [@modal]="showShougouModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+  <div
+    #modalWrapper
+    class="modal_wrapper"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3>商号検索</h3>
+    <form>
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <div class="search">
+            <div class="search-inner">
+              <form class="form">
+                <div class="form-block">
+                  <div class="form-block-item">
+                    <label for="memberName"> 商号 </label>
+                    <input
+                      type="text"
+                      name="memberName"
+                      placeholder="例）アットホーム株式会社"
+                      #memberName
+                    />
+                  </div>
+                  <div class="form-block-item">
+                    <label for="memberNameKana">商号（全角カナ）</label>
+                    <input
+                      type="text"
+                      name="memberNameKana"
+                      placeholder="例）アットホームカブシキガイシャ"
+                      #memberNameKana
+                      [ngClass]="isKana ? '' : 'error'"
+                    />
+                    <p class="error" *ngIf="!isKana">
+                      全角カナを入力してください。
+                    </p>
+                  </div>
+                </div>
+                <div class="submit">
+                  <input
+                    type="submit"
+                    value="検索する"
+                    (click)="showResult(memberName.value, memberNameKana.value)"
+                  />
+                  <input type="reset" value="クリア" />
+                </div>
+              </form>
+            </div>
+          </div>
+          <h3 *ngIf="shougouList">商号選択</h3>
+          <div *ngIf="shougouList">
+            <span class="bold">全<span class="large">5</span>件</span>
+            <span class="note">商号を一つ選択してください</span>
+          </div>
+          <table *ngIf="shougouList">
+            <thead>
+              <th></th>
+              <th>商号</th>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let shougou of shougouList; let i = index">
+                <tr>
+                  <th>
+                    <input
+                      type="radio"
+                      name="shougou"
+                      [id]="i"
+                      [value]="shougou"
+                      [(ngModel)]="selected"
+                    />
+                    <label [for]="i"></label>
+                  </th>
+                  <td>
+                    <label [for]="i">{{ shougou }}</label>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="submit"
+          value="決定する"
+          (click)="close(); passShougou(selected)"
+          [ngClass]="!shougouList ? 'disabled' : ''"
+        />
+        <input type="reset" value="キャンセル" (click)="close()" />
+      </div>
+    </form>
+    <div *ngIf="noResult" class="no-result">
+      <div class="inner">
+        <i class="fa-solid fa-magnifying-glass icon"></i>
+        <p>
+          お探しの条件に該当する商号はありません。<br />
+          別の条件をお試しください。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

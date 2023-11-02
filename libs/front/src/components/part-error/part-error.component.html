@@ -1,0 +1,14 @@
+<div
+  class="error-box"
+  [ngClass]="{
+    show: errorList,
+    errorBottom: errorBottomList,
+    errorTop: errorTopList
+  }"
+>
+  <ul>
+    <ng-container *ngFor="let error of errorList"
+      ><li>・{{ error }}</li>
+    </ng-container>
+  </ul>
+</div>

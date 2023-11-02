@@ -1,0 +1,44 @@
+@charset 'utf-8';
+
+.search {
+  &-inner {
+    .form {
+      &-block {
+        grid-template-columns: 1fr;
+
+        &-item {
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
+.result {
+  .mdc-data-table {
+    &__cell {
+      &.cdk-column {
+        &-title {
+          min-width: 452px;
+        }
+
+        &-keisaiKikan {
+          min-width: 181px;
+        }
+
+        &-createDate {
+          min-width: 167px;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .result {
+    .mat-sort-header-arrow {
+      display: none;
+    }
+  }
+}

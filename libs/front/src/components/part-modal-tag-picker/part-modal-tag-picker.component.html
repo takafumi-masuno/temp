@@ -1,0 +1,1426 @@
+<div
+  id="tag-modal"
+  class="modal"
+  [ngClass]="{ show: showTagModal }"
+  [@modal]="showTagModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+
+  <!-- カタログタグ選択 -->
+  <div
+    #modalWrapper
+    class="modal_wrapper"
+    [ngClass]="{ show: catalog && showTagModal }"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3>カタログタグ選択</h3>
+    <form>
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <dl>
+            <ng-container *ngFor="let catalogData of catalogList">
+              <dt>{{ catalogData.nameJp }}</dt>
+              <dd>
+                <ul class="tags">
+                  <ng-container *ngFor="let tag of catalogData.value">
+                    <li>
+                      <input
+                        type="checkbox"
+                        [name]="catalogData.name"
+                        (change)="changeSelected($event)"
+                        [id]="tag.id"
+                        [value]="tag.value"
+                        [checked]="tag.checked"
+                      />
+                      <label [for]="tag.id">{{ tag.value }}</label>
+                    </li>
+                  </ng-container>
+                </ul>
+              </dd>
+            </ng-container>
+          </dl>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="button"
+          value="選択する"
+          (click)="close(); passShowStoreTag(selectedStoreTag)"
+        />
+        <button
+          type="button"
+          class="cancel"
+          value="キャンセル"
+          (click)="close()"
+        >
+          キャンセル
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 建築事例タグ選択 -->
+  <div
+    #modalWrapper
+    class="modal_wrapper"
+    [ngClass]="{ show: precedent && showTagModal }"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3>建築事例の特徴</h3>
+    <form>
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <dl>
+            <dt>構造</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="structure"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_hiraya"
+                    value="平屋"
+                  />
+                  <label for="precedent_hiraya">平屋</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="structure"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_threeStory"
+                    value="3階建て以上"
+                  />
+                  <label for="precedent_threeStory">3階建て以上</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="structure"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_tinyHouse"
+                    value="狭小住宅"
+                  />
+                  <label for="precedent_tinyHouse">狭小住宅</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>性能</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_earthquakeResistance"
+                    value="高耐震・免振・制震"
+                  />
+                  <label for="precedent_earthquakeResistance"
+                    >高耐震・免振・制震</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_insulatation"
+                    value="高気密・高断熱"
+                  />
+                  <label for="precedent_insulatation">高気密・高断熱</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_soundproof"
+                    value="防音・遮音"
+                  />
+                  <label for="precedent_soundproof">防音・遮音</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_zeh"
+                    value="ZEH住宅"
+                  />
+                  <label for="precedent_zeh">ZEH住宅</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_eco"
+                    value="エコ・省エネ"
+                  />
+                  <label for="precedent_eco">エコ・省エネ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_universalDesign"
+                    value="ユニバーサルデザイン"
+                  />
+                  <label for="precedent_universalDesign"
+                    >ユニバーサルデザイン</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_tenantOccupied"
+                    value="賃貸・店舗併用住宅"
+                  />
+                  <label for="precedent_tenantOccupied"
+                    >賃貸・店舗併用住宅</label
+                  >
+                </li>
+              </ul>
+            </dd>
+            <dt>ライフスタイル</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_dualIncome"
+                    value="共働き・子育て世帯"
+                  />
+                  <label for="precedent_dualIncome">共働き・子育て世帯</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_twentiesAndThirties"
+                    value="20代・30代で建てる"
+                  />
+                  <label for="precedent_twentiesAndThirties"
+                    >20代・30代で建てる</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_multiGenerational"
+                    value="二世帯・多世帯"
+                  />
+                  <label for="precedent_multiGenerational"
+                    >二世帯・多世帯</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_secondLife"
+                    value="セカンドライフ"
+                  />
+                  <label for="precedent_secondLife">セカンドライフ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_resort"
+                    value="別荘・リゾートハウス"
+                  />
+                  <label for="precedent_resort">別荘・リゾートハウス</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_withPet"
+                    value="ペットと一緒に暮らす"
+                  />
+                  <label for="precedent_withPet">ペットと一緒に暮らす</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>こだわり</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_childcare"
+                    value="子育てしやすい"
+                  />
+                  <label for="precedent_childcare">子育てしやすい</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_housework"
+                    value="家事が楽になる"
+                  />
+                  <label for="precedent_housework">家事が楽になる</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_plentyStorage"
+                    value="収納充実"
+                  />
+                  <label for="precedent_plentyStorage">収納充実</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_withGarage"
+                    value="ガレージ付き"
+                  />
+                  <label for="precedent_withGarage">ガレージ付き</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_fullyEquippedKitchen"
+                    value="キッチンが充実"
+                  />
+                  <label for="precedent_fullyEquippedKitchen"
+                    >キッチンが充実</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_hasRooftop"
+                    value="屋上あり"
+                  />
+                  <label for="precedent_hasRooftop">屋上あり</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_hasBasement"
+                    value="地下室あり"
+                  />
+                  <label for="precedent_hasBasement">地下室あり</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="feature"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_enjoyGarden"
+                    value="庭を楽しむ"
+                  />
+                  <label for="precedent_enjoyGarden">庭を楽しむ</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>イメージ</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="impression"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_japaneseStyle"
+                    value="和風な家"
+                  />
+                  <label for="precedent_japaneseStyle">和風な家</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="impression"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_imported"
+                    value="輸入住宅"
+                  />
+                  <label for="precedent_imported">輸入住宅</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="impression"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_natural"
+                    value="木・自然素材の家"
+                  />
+                  <label for="precedent_natural">木・自然素材の家</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>デザイン</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_modern"
+                    value="モダン"
+                  />
+                  <label for="precedent_modern">モダン</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_classic"
+                    value="クラシック"
+                  />
+                  <label for="precedent_classic">クラシック</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_elegant"
+                    value="エレガント"
+                  />
+                  <label for="precedent_elegant">エレガント</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changePrecedentTag($event)"
+                    id="precedent_minimal"
+                    value="ミニマル"
+                  />
+                  <label for="precedent_minimal">ミニマル</label>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="button"
+          value="選択する"
+          (click)="close(); passShowPrecedentTag(selectedPrecedentTag)"
+        />
+        <input type="reset" value="キャンセル" (click)="close()" />
+      </div>
+    </form>
+  </div>
+
+  <!-- 建築事例種別タグ選択 -->
+  <div
+    #modalWrapper
+    class="modal_wrapper"
+    [ngClass]="{ show: precedentCategory && showTagModal }"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3>画像タグ選択</h3>
+    <form>
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <dl>
+            <p>スペース</p>
+            <dt>エクステリア</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_garden"
+                    value="庭"
+                  />
+                  <label for="precedentCategory_garden">庭</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_patio"
+                    value="中庭"
+                  />
+                  <label for="precedentCategory_patio">中庭</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_porch"
+                    value="縁側"
+                  />
+                  <label for="precedentCategory_porch">縁側</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_gardenRoom"
+                    value="ガーデンルーム"
+                  />
+                  <label for="precedentCategory_gardenRoom"
+                    >ガーデンルーム</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_woodDeck"
+                    value="ウッドデッキ"
+                  />
+                  <label for="precedentCategory_woodDeck">ウッドデッキ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_veranda"
+                    value="ベランダ"
+                  />
+                  <label for="precedentCategory_veranda">ベランダ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_balcony"
+                    value="バルコニー"
+                  />
+                  <label for="precedentCategory_balcony">バルコニー</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_carSpace"
+                    value="カースペース"
+                  />
+                  <label for="precedentCategory_carSpace">カースペース</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="exterior"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_rooftop"
+                    value="屋上"
+                  />
+                  <label for="precedentCategory_rooftop">屋上</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>インテリア</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_entrance"
+                    value="玄関"
+                  />
+                  <label for="precedentCategory_entrance">玄関</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_earthFloor"
+                    value="土間"
+                  />
+                  <label for="precedentCategory_earthFloor">土間</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_corridor"
+                    value="廊下"
+                  />
+                  <label for="precedentCategory_corridor">廊下</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_hall"
+                    value="ホール"
+                  />
+                  <label for="precedentCategory_hall">ホール</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_stairs"
+                    value="階段"
+                  />
+                  <label for="precedentCategory_stairs">階段</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_Atrium"
+                    value="吹き抜け"
+                  />
+                  <label for="precedentCategory_Atrium">吹き抜け</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_kitchen"
+                    value="キッチン"
+                  />
+                  <label for="precedentCategory_kitchen">キッチン</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_dining"
+                    value="ダイニング"
+                  />
+                  <label for="precedentCategory_dining">ダイニング</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_workSpace"
+                    value="ワークスペース"
+                  />
+                  <label for="precedentCategory_workSpace"
+                    >ワークスペース</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_hobbyRoom"
+                    value="趣味部屋"
+                  />
+                  <label for="precedentCategory_hobbyRoom">趣味部屋</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_childrenRroom"
+                    value="子ども部屋"
+                  />
+                  <label for="precedentCategory_childrenRroom"
+                    >子ども部屋</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_japaneseStyleRoom"
+                    value="和室"
+                  />
+                  <label for="precedentCategory_japaneseStyleRoom">和室</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_bedroom"
+                    value="寝室"
+                  />
+                  <label for="precedentCategory_bedroom">寝室</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_loft"
+                    value="ロフト"
+                  />
+                  <label for="precedentCategory_loft">ロフト</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_storage"
+                    value="収納"
+                  />
+                  <label for="precedentCategory_storage">収納</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_washroom"
+                    value="洗面所"
+                  />
+                  <label for="precedentCategory_washroom">洗面所</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_toilet"
+                    value="トイレ"
+                  />
+                  <label for="precedentCategory_toilet">トイレ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_bathroom"
+                    value="バスルーム"
+                  />
+                  <label for="precedentCategory_bathroom">バスルーム</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_showerRoom"
+                    value="シャワールーム"
+                  />
+                  <label for="precedentCategory_showerRoom"
+                    >シャワールーム</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_basement"
+                    value="地下室"
+                  />
+                  <label for="precedentCategory_basement">地下室</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_attic"
+                    value="屋根裏部屋"
+                  />
+                  <label for="precedentCategory_attic">屋根裏部屋</label>
+                </li>
+              </ul>
+            </dd>
+            <p>素材</p>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_solidWood"
+                    value="無垢材"
+                  />
+                  <label for="precedentCategory_solidWood">無垢材</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_stone"
+                    value="石"
+                  />
+                  <label for="precedentCategory_stone">石</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_plaster"
+                    value="漆喰"
+                  />
+                  <label for="precedentCategory_plaster">漆喰</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_mortar"
+                    value="モルタル"
+                  />
+                  <label for="precedentCategory_mortar">モルタル</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_concrete"
+                    value="コンクリート"
+                  />
+                  <label for="precedentCategory_concrete">コンクリート</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_iron"
+                    value="アイアン"
+                  />
+                  <label for="precedentCategory_iron">アイアン</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_steel"
+                    value="スチール"
+                  />
+                  <label for="precedentCategory_steel">スチール</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_glass"
+                    value="ガラス"
+                  />
+                  <label for="precedentCategory_glass">ガラス</label>
+                </li>
+              </ul>
+            </dd>
+            <p>カラー</p>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_white"
+                    value="白"
+                  />
+                  <label for="precedentCategory_white">白</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_black"
+                    value="黒"
+                  />
+                  <label for="precedentCategory_black">黒</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_monotone"
+                    value="モノトーン"
+                  />
+                  <label for="precedentCategory_monotone">モノトーン</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_colorful"
+                    value="カラフル"
+                  />
+                  <label for="precedentCategory_colorful">カラフル</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_pastel"
+                    value="パステル"
+                  />
+                  <label for="precedentCategory_pastel">パステル</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changePrecedentCategoryTag($event)"
+                    id="precedentCategory_vivid"
+                    value="ビビッド"
+                  />
+                  <label for="precedentCategory_vivid">ビビッド</label>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="button"
+          value="選択する"
+          (click)="
+            close(); passShowPrecedentCategoryTag(selectedPrecedentCategoryTag)
+          "
+        />
+        <input type="reset" value="キャンセル" (click)="close()" />
+      </div>
+    </form>
+  </div>
+
+  <!-- 店舗モデルハウスタグ選択 -->
+  <div
+    #modalWrapper
+    class="modal_wrapper"
+    [ngClass]="{ show: store && showTagModal }"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h3>店舗・モデルハウスタグ選択</h3>
+    <form>
+      <div class="scroll-contents">
+        <div class="contents" #scrollContents>
+          <dl>
+            <dt>価格</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="price"
+                    (change)="changeStoreTag($event)"
+                    id="store_lowCost"
+                    value="ローコスト住宅"
+                  />
+                  <label for="store_lowCost">ローコスト住宅</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="price"
+                    (change)="changeStoreTag($event)"
+                    id="store_highGrade"
+                    value="ハイグレード住宅"
+                  />
+                  <label for="store_highGrade">ハイグレード住宅</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>構造</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="structure"
+                    (change)="changeStoreTag($event)"
+                    id="store_hiraya"
+                    value="平屋"
+                  />
+                  <label for="store_hiraya">平屋</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="structure"
+                    (change)="changeStoreTag($event)"
+                    id="store_threeStory"
+                    value="3階建て以上"
+                  />
+                  <label for="store_threeStory">3階建て以上</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="structure"
+                    (change)="changeStoreTag($event)"
+                    id="store_tinyHouse"
+                    value="狭小住宅"
+                  />
+                  <label for="store_tinyHouse">狭小住宅</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>性能</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_universalDesign"
+                    value="ユニバーサルデザイン"
+                  />
+                  <label for="store_universalDesign"
+                    >ユニバーサルデザイン</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_earthquakeResistance"
+                    value="高耐震・免振・制震"
+                  />
+                  <label for="store_earthquakeResistance"
+                    >高耐震・免振・制震</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_insulatation"
+                    value="高気密・高断熱"
+                  />
+                  <label for="store_insulatation">高気密・高断熱</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_soundproof"
+                    value="防音・遮音"
+                  />
+                  <label for="store_soundproof">防音・遮音</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_zeh"
+                    value="ZEH住宅"
+                  />
+                  <label for="store_zeh">ZEH住宅</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_eco"
+                    value="エコ・省エネ"
+                  />
+                  <label for="store_eco">エコ・省エネ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    (change)="changeStoreTag($event)"
+                    id="store_tenantOccupied"
+                    value="賃貸・店舗併用住宅"
+                  />
+                  <label for="store_tenantOccupied">賃貸・店舗併用住宅</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>ライフスタイル</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changeStoreTag($event)"
+                    id="store_dualIncome"
+                    value="共働き・子育て世帯"
+                  />
+                  <label for="store_dualIncome">共働き・子育て世帯</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changeStoreTag($event)"
+                    id="store_twentiesAndThirties"
+                    value="20代・30代で建てる"
+                  />
+                  <label for="store_twentiesAndThirties"
+                    >20代・30代で建てる</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changeStoreTag($event)"
+                    id="store_multiGenerational"
+                    value="二世帯・多世帯"
+                  />
+                  <label for="store_multiGenerational">二世帯・多世帯</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changeStoreTag($event)"
+                    id="store_zehSecondLife"
+                    value="ZEHセカンドライフ"
+                  />
+                  <label for="store_zehSecondLife">ZEHセカンドライフ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changeStoreTag($event)"
+                    id="store_resort"
+                    value="別荘・リゾートハウス"
+                  />
+                  <label for="store_resort">別荘・リゾートハウス</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="lifestyle"
+                    (change)="changeStoreTag($event)"
+                    id="store_withPet"
+                    value="ペットと一緒に暮らす"
+                  />
+                  <label for="store_withPet">ペットと一緒に暮らす</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>イメージ</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="image"
+                    (change)="changeStoreTag($event)"
+                    id="store_japaneseStyle"
+                    value="和風な家"
+                  />
+                  <label for="store_japaneseStyle">和風な家</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="image"
+                    (change)="changeStoreTag($event)"
+                    id="store_imported"
+                    value="輸入住宅"
+                  />
+                  <label for="store_imported">輸入住宅</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="image"
+                    (change)="changeStoreTag($event)"
+                    id="store_natural"
+                    value="木・自然素材の家"
+                  />
+                  <label for="store_natural">木・自然素材の家</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>デザイン</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changeStoreTag($event)"
+                    id="store_modern"
+                    value="モダン"
+                  />
+                  <label for="store_modern">モダン</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changeStoreTag($event)"
+                    id="store_classic"
+                    value="クラシック"
+                  />
+                  <label for="store_classic">クラシック</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changeStoreTag($event)"
+                    id="store_elegant"
+                    value="エレガント"
+                  />
+                  <label for="store_elegant">エレガント</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="design"
+                    (change)="changeStoreTag($event)"
+                    id="store_minimal"
+                    value="ミニマル"
+                  />
+                  <label for="store_minimal">ミニマル</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>工法</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_wooden"
+                    value="木造軸組"
+                  />
+                  <label for="store_wooden">木造軸組</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_twoByFour"
+                    value="2×4・2×6"
+                  />
+                  <label for="store_twoByFour">2×4・2×6</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_rc"
+                    value="RC（鉄筋コンクリート)造"
+                  />
+                  <label for="store_rc">RC（鉄筋コンクリート)造</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_heavySteel"
+                    value="重量鉄骨"
+                  />
+                  <label for="store_heavySteel">重量鉄骨</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_steelPrefab"
+                    value="鉄骨系プレハブ"
+                  />
+                  <label for="store_steelPrefab">鉄骨系プレハブ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_woodenPrefab"
+                    value="木質系プレハブ"
+                  />
+                  <label for="store_woodenPrefab">木質系プレハブ</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_concretePrefab"
+                    value="コンクリート系プレハブ"
+                  />
+                  <label for="store_concretePrefab"
+                    >コンクリート系プレハブ</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="constructionMethod"
+                    (change)="changeStoreTag($event)"
+                    id="store_others"
+                    value="その他"
+                  />
+                  <label for="store_others">その他</label>
+                </li>
+              </ul>
+            </dd>
+            <dt>会社の特徴</dt>
+            <dd>
+              <ul class="tags">
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_onlineConsultation"
+                    value="オンライン相談可"
+                  />
+                  <label for="store_onlineConsultation">オンライン相談可</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_local"
+                    value="地元に密着"
+                  />
+                  <label for="store_local">地元に密着</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_afterSupport"
+                    value="アフターサポートが充実"
+                  />
+                  <label for="store_afterSupport">アフターサポートが充実</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_landSearch"
+                    value="土地探しの相談可"
+                  />
+                  <label for="store_landSearch">土地探しの相談可</label>
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_interiorConsultation"
+                    value="インテリアの相談可"
+                  />
+                  <label for="store_interiorConsultation"
+                    >インテリアの相談可</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_financialPlanner"
+                    value="ファイナンシャルプランナーに相談可"
+                  />
+                  <label for="store_financialPlanner"
+                    >ファイナンシャルプランナーに相談可</label
+                  >
+                </li>
+                <li>
+                  <input
+                    type="checkbox"
+                    name="companyCharacteristics"
+                    (change)="changeStoreTag($event)"
+                    id="store_housingLoan"
+                    value="住宅ローンに紹介"
+                  />
+                  <label for="store_housingLoan">住宅ローンに紹介</label>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="submit">
+        <input
+          type="button"
+          value="選択する"
+          (click)="close(); passShowStoreTag(selectedStoreTag)"
+        />
+        <input type="reset" value="キャンセル" (click)="close()" />
+      </div>
+    </form>
+  </div>
+</div>

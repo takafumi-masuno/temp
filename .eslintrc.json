@@ -1,0 +1,65 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": "eslint:recommended",
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "app:conpane",
+                "onlyDependOnLibsWithTags": [
+                  "app:conpane",
+                  "lib:front",
+                  "lib:shared"
+                ]
+              },
+              {
+                "sourceTag": "app:bff",
+                "onlyDependOnLibsWithTags": ["app:bff", "lib:bff", "lib:shared"]
+              },
+              {
+                "sourceTag": "lib:bff",
+                "onlyDependOnLibsWithTags": ["lib:bff", "lib:shared"]
+              },
+              {
+                "sourceTag": "lib:front",
+                "onlyDependOnLibsWithTags": [
+                  "lib:front",
+                  "lib:shared",
+                  "lib:bff"
+                ]
+              },
+              {
+                "sourceTag": "lib:shared",
+                "onlyDependOnLibsWithTags": ["lib:shared"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "parserOptions": {
+        "project": "./tsconfig.*?.json"
+      },
+      "rules": {
+        "@typescript-eslint/ban-types": ["warn"]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    }
+  ]
+}

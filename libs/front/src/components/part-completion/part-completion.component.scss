@@ -1,0 +1,28 @@
+.notice {
+  position: relative;
+  border: solid 1px #00ae95;
+  background: #ffffff;
+  color: #00ae95;
+  font-weight: bold;
+  padding: 40px;
+  margin-bottom: 40px;
+
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  p {
+    display: flex;
+
+    i {
+      margin-top: 4px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+}

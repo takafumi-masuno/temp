@@ -1,0 +1,1220 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrapper">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <h2>建築会社変更</h2>
+      <div class="register">
+        <div class="info">
+          <h3>基本情報</h3>
+          <table class="info-table">
+            <colgroup>
+              <col width="220" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <th>会員番号</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.kaiinNo }}</td>
+              </tr>
+              <tr>
+                <th>一般商号</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.ippanShougou }}</td>
+              </tr>
+              <tr>
+                <th>一般カナ</th>
+                <td>
+                  {{ (store.basicInfo$ | ngrxPush)?.ippanShougouKana }}
+                </td>
+              </tr>
+              <tr>
+                <th>所在地</th>
+                <td>
+                  {{ (store.basicInfo$ | ngrxPush)?.postNo }}<br />
+                  {{ (store.basicInfo$ | ngrxPush)?.shozaichi }}
+                </td>
+              </tr>
+              <tr>
+                <th>交通</th>
+                <td>
+                  {{ (store.basicInfo$ | ngrxPush)?.koutuu }}
+                </td>
+              </tr>
+              <tr>
+                <th>TEL　一般公開</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.tel }}</td>
+              </tr>
+              <tr>
+                <th>FAX　一般公開</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.fax }}</td>
+              </tr>
+              <tr>
+                <th>代表者名</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.daihyoushaNm }}</td>
+              </tr>
+              <tr>
+                <th>免許　免許番号（名称）</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.menkyoNm }}</td>
+              </tr>
+              <tr>
+                <th>所属団体</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.shozokuDantaiNm }}</td>
+              </tr>
+              <tr>
+                <th>保証協会</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.hoshouKaisha }}</td>
+              </tr>
+              <tr>
+                <th>公取加盟</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.koutoriKamei }}</td>
+              </tr>
+              <tr>
+                <th>資本金</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.shihonkin }}</td>
+              </tr>
+              <tr>
+                <th>従業員数</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.jugyouinsuu }}</td>
+              </tr>
+              <tr>
+                <th>設立年月</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.seturituNentsuki }}</td>
+              </tr>
+              <tr>
+                <th>定休日</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.teikyuubi }}</td>
+              </tr>
+              <tr>
+                <th>その他の定休日</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.sonotaTeikyuubi }}</td>
+              </tr>
+              <tr>
+                <th>営業時間</th>
+                <td>{{ (store.basicInfo$ | ngrxPush)?.eigyouZikan }}</td>
+              </tr>
+              <tr>
+                <th>その他の営業時間</th>
+                <td>
+                  {{ (store.basicInfo$ | ngrxPush)?.sonotaEigyouZikan }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <form [formGroup]="companyEditForm" class="form">
+          <div class="box" formGroupName="companyProfile">
+            <h3>会社概要</h3>
+            <div class="form-block">
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  会社種別
+                  <span class="label necessary">必須</span>
+                </p>
+                <ul class="column">
+                  <ng-container
+                    *ngFor="let kaishaTypeRadioOption of kaishaTypeRadioOptions"
+                  >
+                    <li>
+                      <input
+                        type="radio"
+                        name="kaishaType"
+                        formControlName="kaishaType"
+                        [value]="kaishaTypeRadioOption.value"
+                        id="kaishaType-{{ kaishaTypeRadioOption.value }}"
+                        required
+                        [ngClass]="
+                          (companyProfileForm.controls.kaishaType.touched &&
+                            companyProfileForm.controls.kaishaType.invalid) ||
+                          previewed
+                            ? 'error'
+                            : ''
+                        "
+                      />
+                      <label for="kaishaType-{{ kaishaTypeRadioOption.value }}">
+                        <span>{{ kaishaTypeRadioOption.nm }}</span>
+                      </label>
+                    </li>
+                  </ng-container>
+                </ul>
+                <p
+                  class="error"
+                  *ngIf="
+                    (companyProfileForm.controls.kaishaType.touched &&
+                      companyProfileForm.controls.kaishaType.invalid) ||
+                    previewed
+                  "
+                >
+                  会社種別を選択してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  取扱い工法区分
+                  <span class="label necessary">必須</span>
+                </p>
+                <ul class="lists" formArrayName="toriatsukaiKubun">
+                  <li
+                    *ngFor="
+                      let item of toriatsukaiKubunForm.controls;
+                      let i = index
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      name="toriatsukaiKubun"
+                      id="toriatsukaiKubun{{ i }}"
+                      [formControlName]="i"
+                      [ngClass]="
+                        (toriatsukaiKubunForm.touched &&
+                          toriatsukaiKubunForm.invalid) ||
+                        previewed
+                          ? 'error'
+                          : ''
+                      "
+                      [class.ng-pristine]="
+                        toriatsukaiKubunForm.pristine &&
+                        toriatsukaiKubunForm.invalid
+                      "
+                      [class.required]="
+                        toriatsukaiKubunForm.pristine &&
+                        toriatsukaiKubunForm.invalid
+                      "
+                      (change)="changeToriatsukaiKubunCheckbox()"
+                    />
+                    <label for="toriatsukaiKubun{{ i }}">
+                      <span>{{ toriatsukaiKubunCheckboxOptions[i].nm }}</span>
+                    </label>
+                  </li>
+                </ul>
+                <p
+                  class="error"
+                  *ngIf="
+                    (toriatsukaiKubunForm.touched &&
+                      toriatsukaiKubunForm.invalid) ||
+                    previewed
+                  "
+                >
+                  取扱い工法区分を選択してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  建築可能エリア
+                  <span class="label necessary">必須</span>
+                </p>
+                <button
+                  type="button"
+                  class="btn green"
+                  (click)="openAreaModal()"
+                >
+                  施工対応エリアを選択
+                  <i class="fa-solid fa-magnifying-glass-plus icon"></i>
+                </button>
+                <div *ngIf="selectedAreaData.length" class="area-details">
+                  <div
+                    *ngFor="let selectedPrefecture of selectedAreaData"
+                    class="area-prefecture"
+                  >
+                    <span class="prefecture">
+                      {{ selectedPrefecture.prefecture.prefNm }}
+                    </span>
+                    ＞
+                    <p>
+                      <ng-container
+                        *ngIf="
+                          selectedPrefecture.cities[0].code === '000' &&
+                            selectedPrefecture.cities[0].isChecked;
+                          else selectedCities
+                        "
+                      >
+                        <span>
+                          <span>全域</span>
+                        </span>
+                      </ng-container>
+                      <ng-template #selectedCities>
+                        <span
+                          *ngFor="
+                            let city of selectedPrefecture.cities;
+                            first as first;
+                            last as last
+                          "
+                        >
+                          <span *ngIf="city.isChecked"
+                            >{{ city.name }}<span *ngIf="!last">、</span></span
+                          >
+                        </span>
+                      </ng-template>
+                    </p>
+                  </div>
+                </div>
+                <p
+                  class="error"
+                  *ngIf="
+                    (companyProfileForm.controls.areaTodouhukenCd.touched &&
+                      companyProfileForm.controls.areaTodouhukenCd.invalid) ||
+                    (companyProfileForm.controls.areaSikugunCd.touched &&
+                      companyProfileForm.controls.areaSikugunCd.invalid) ||
+                    previewed
+                  "
+                >
+                  施工対応エリアを選択してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  建築可能エリア備考
+                  <span class="label necessary">必須</span>
+                </p>
+                <input
+                  type="text"
+                  name="areaBikou"
+                  formControlName="areaBikou"
+                  placeholder="例）※施工は別途加盟工務店が請け負います"
+                  maxlength="300"
+                  required
+                  [ngClass]="
+                    (companyProfileForm.controls.areaBikou.touched &&
+                      companyProfileForm.controls.areaBikou.invalid) ||
+                    (companyProfileForm.controls.areaBikou.untouched &&
+                      previewed)
+                      ? 'error'
+                      : ''
+                  "
+                />
+                <p
+                  class="error"
+                  *ngIf="
+                    (companyProfileForm.controls.areaBikou.touched &&
+                      companyProfileForm.controls.areaBikou.invalid) ||
+                    (companyProfileForm.controls.areaBikou.untouched &&
+                      previewed)
+                  "
+                >
+                  建築可能エリア備考を入力してください。
+                </p>
+              </div>
+              <div class="form-block-item abreast">
+                <p class="form-block-item_title">
+                  坪単価
+                  <span class="label necessary">必須</span>
+                </p>
+                <input
+                  type="text"
+                  name="tsubotankaFrom"
+                  formControlName="tsubotankaFrom"
+                  placeholder="例）66.0"
+                  maxlength="50"
+                  required
+                  class="mw120"
+                  [ngClass]="
+                    (tsubotankaFrom.touched && tsubotankaFrom.invalid) ||
+                    (tsubotankaFrom.untouched && previewed)
+                      ? 'error'
+                      : ''
+                  "
+                  (blur)="convertInputValue(tsubotankaFrom)"
+                />
+                <span class="bold">万円から</span>
+                <input
+                  type="text"
+                  name="tsubotankaTo"
+                  formControlName="tsubotankaTo"
+                  placeholder="例）120.0"
+                  maxlength="50"
+                  required
+                  class="mw120"
+                  [ngClass]="
+                    (tsubotankaTo.touched && tsubotankaTo.invalid) ||
+                    (tsubotankaTo.untouched && previewed)
+                      ? 'error'
+                      : ''
+                  "
+                  (blur)="convertInputValue(tsubotankaTo)"
+                />
+                <span class="bold">万円まで</span>
+                <ng-container
+                  *ngIf="
+                    (tsubotankaFrom.touched && tsubotankaFrom.invalid) ||
+                    (tsubotankaTo.touched && tsubotankaTo.invalid) ||
+                    (tsubotankaFrom.untouched &&
+                      tsubotankaTo.untouched &&
+                      previewed)
+                  "
+                >
+                  <ng-container
+                    *ngIf="
+                      (tsubotankaFrom.errors &&
+                        tsubotankaFrom.errors['required']) ||
+                        (tsubotankaTo.errors &&
+                          tsubotankaTo.errors['required']);
+                      else isNotDecimalNumberError
+                    "
+                  >
+                    <p class="error">坪単価を入力してください。</p>
+                  </ng-container>
+                  <ng-template #isNotDecimalNumberError>
+                    <p class="error">半角数値を入力してください</p>
+                  </ng-template>
+                </ng-container>
+              </div>
+              <div class="form-block-item abreast">
+                <p class="form-block-item_title">
+                  本体価格
+                  <span class="label necessary">必須</span>
+                </p>
+                <input
+                  type="text"
+                  name="hontaikakakuFrom"
+                  formControlName="hontaikakakuFrom"
+                  placeholder="例）1980.0"
+                  maxlength="50"
+                  required
+                  class="mw120"
+                  [ngClass]="
+                    (hontaikakakuFrom.touched && hontaikakakuFrom.invalid) ||
+                    (hontaikakakuFrom.untouched && previewed)
+                      ? 'error'
+                      : ''
+                  "
+                  (blur)="convertInputValue(hontaikakakuFrom)"
+                />
+                <span class="bold">万円から</span>
+                <input
+                  type="text"
+                  name="hontaikakakuTo"
+                  formControlName="hontaikakakuTo"
+                  placeholder="例）3000.0"
+                  maxlength="50"
+                  required
+                  class="mw120"
+                  [ngClass]="
+                    (hontaikakakuTo.touched && hontaikakakuTo.invalid) ||
+                    (hontaikakakuTo.untouched && previewed)
+                      ? 'error'
+                      : ''
+                  "
+                  (blur)="convertInputValue(hontaikakakuTo)"
+                />
+                <span class="bold">万円まで</span>
+                <ng-container
+                  *ngIf="
+                    (hontaikakakuFrom.touched && hontaikakakuFrom.invalid) ||
+                    (hontaikakakuTo.touched && hontaikakakuTo.invalid) ||
+                    (hontaikakakuFrom.untouched &&
+                      hontaikakakuTo.untouched &&
+                      previewed)
+                  "
+                >
+                  <ng-container
+                    *ngIf="
+                      (hontaikakakuFrom.errors &&
+                        hontaikakakuFrom.errors['required']) ||
+                        (hontaikakakuTo.errors &&
+                          hontaikakakuTo.errors['required']);
+                      else isNotDecimalNumberError
+                    "
+                  >
+                    <p class="error">本体価格を入力してください。</p>
+                  </ng-container>
+                  <ng-template #isNotDecimalNumberError>
+                    <p class="error">半角数値を入力してください</p>
+                  </ng-template>
+                </ng-container>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">アフターサービス・定期点検</p>
+                <textarea
+                  name="afterServiceTeikiTenken"
+                  formControlName="afterServiceTeikiTenken"
+                  placeholder="例）20年間　1年、2年、以降有償メンテナンスにて35 年まで保証&#13;第三者機関の住宅瑕疵担保責任保険。完成保証制度。"
+                  maxlength="300"
+                  class=""
+                >
+                </textarea>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">完成保証</p>
+                <input
+                  type="text"
+                  name="kanseiHoshou"
+                  formControlName="kanseiHoshou"
+                  placeholder="例）完成保証制度"
+                  maxlength="300"
+                  class=""
+                />
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">瑕疵保証</p>
+                <textarea
+                  name="kasiHoshou"
+                  formControlName="kasiHoshou"
+                  placeholder="例）ハウスプラス住宅保証(株)&#13;　　株式会社ハウスジーメン"
+                  maxlength="300"
+                  class=""
+                >
+                </textarea>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">その他保証・保険等</p>
+                <textarea
+                  name="sonotaHoshou"
+                  formControlName="sonotaHoshou"
+                  placeholder="例）35年保証(20年目以降の有償メンテナンス必要)&#13;　　地盤保証（株式会社ハウスジーメン）"
+                  maxlength="300"
+                  class=""
+                >
+                </textarea>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">施工実績</p>
+                <textarea
+                  name="sekouJisseki"
+                  formControlName="sekouJisseki"
+                  placeholder="例）2093棟（2021年）&#13;　　8347棟"
+                  maxlength="300"
+                  class=""
+                >
+                </textarea>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">資格者</p>
+                <input
+                  type="text"
+                  name="sikakusya"
+                  formControlName="sikakusya"
+                  placeholder="例）一級建築士、宅地建物取引士、木造ハウジングコーディネーター、一級建築施工管理技士、インテリアコーディネーター"
+                  maxlength="300"
+                  class=""
+                />
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">売上高</p>
+                <input
+                  type="text"
+                  name="uriagedaka"
+                  formControlName="uriagedaka"
+                  placeholder="例）38.0億円（2021年）"
+                  maxlength="100"
+                  class=""
+                />
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">会社ホームページ</p>
+                <input
+                  type="text"
+                  name="homePage"
+                  formControlName="homePage"
+                  placeholder="例）https://xxxx/xxx/"
+                  maxlength="300"
+                  class=""
+                />
+              </div>
+              <div class="form-block-item horizon">
+                <div>
+                  <p class="form-block-item_title">建築業許可番号　区分</p>
+                  <select
+                    type="search"
+                    name="kensetsuKyokaKubun"
+                    formControlName="kensetsuKyokaKubun"
+                    class="w216"
+                  >
+                    <ng-container
+                      *ngFor="
+                        let kensetsuKyokaKubunOption of kensetsuKyokaKubunOptions;
+                        first as first
+                      "
+                    >
+                      <ng-container *ngIf="first">
+                        <option
+                          [ngValue]="kensetsuKyokaKubunOption.value"
+                          hidden
+                        >
+                          {{ kensetsuKyokaKubunOption.nm }}
+                        </option>
+                      </ng-container>
+                      <ng-container *ngIf="!first">
+                        <option [ngValue]="kensetsuKyokaKubunOption.value">
+                          {{ kensetsuKyokaKubunOption.value }}:{{
+                            kensetsuKyokaKubunOption.nm
+                          }}
+                        </option>
+                      </ng-container>
+                    </ng-container>
+                  </select>
+                </div>
+                <div>
+                  <p class="form-block-item_title">建築業許可番号　号</p>
+                  <input
+                    type="text"
+                    name="kensetsuKyokaNo"
+                    formControlName="kensetsuKyokaNo"
+                    placeholder="000406"
+                    maxlength="10"
+                    class="w200"
+                  />
+                </div>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">建築士事務所登録番号</p>
+                <input
+                  type="text"
+                  name="zimusyoTourokuNo"
+                  formControlName="zimusyoTourokuNo"
+                  placeholder="例）東京都知事　第53443号"
+                  maxlength="20"
+                  class="mw240"
+                />
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">サービスの特徴</p>
+                <span class="note">タグを選択してください。</span>
+                <ul class="tags">
+                  <ng-container
+                    formArrayName="tokuchouType"
+                    *ngFor="let tokuchouTypeTag of tokuchouTypeTags"
+                  >
+                    <li>
+                      <input
+                        type="checkbox"
+                        name="tokuchouType"
+                        id="tokuchouType-{{ tokuchouTypeTag.value }}"
+                        (change)="changeTokuchouTypeTag(tokuchouTypeTag.value)"
+                      />
+                      <label for="tokuchouType-{{ tokuchouTypeTag.value }}">
+                        {{ tokuchouTypeTag.nm }}
+                      </label>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div class="form-block-item discription">
+                <p class="form-block-item_title">会社説明タイトル</p>
+                <ul class="column">
+                  <li>
+                    <textarea
+                      name="setsumeiTitle"
+                      formControlName="setsumeiTitle"
+                      placeholder="会社説明タイトルが入力できます。下記参考タイトルを選択し入力することも可能です。"
+                      maxlength="200"
+                      class="mw782"
+                    ></textarea>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="setumeiSelection"
+                      formControlName="setumeiSelection"
+                      value="noSample"
+                      id="noSample"
+                    />
+                    <label for="noSample">
+                      <span>参考タイトルを選択しない</span>
+                    </label>
+                  </li>
+                  <ng-container
+                    *ngFor="let sample of setumeiSample; index as i"
+                  >
+                    <li>
+                      <input
+                        type="radio"
+                        name="setumeiSelection"
+                        formControlName="setumeiSelection"
+                        id="{{ sample.id }}"
+                        value="{{ sample.id }}"
+                      />
+                      <label
+                        for="{{ sample.id }}"
+                        formGroupName="setumeiSample"
+                      >
+                        <span>参考タイトル{{ i + 1 }}</span>
+                        <input
+                          type="text"
+                          name="setumeiSampleTitle"
+                          formControlName="sample{{ i + 1 }}"
+                          placeholder="{{ sample.title }}"
+                          maxlength="200"
+                          class="mw647"
+                        />
+                      </label>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">会社説明詳細</p>
+                <textarea
+                  name="setsumeiShousai"
+                  formControlName="setsumeiShousai"
+                  placeholder="会社説明内容が入力できます。"
+                  maxlength="600"
+                  rows="4"
+                  class=""
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="box" formGroupName="companyImage">
+            <h3>会社画像</h3>
+            <div class="form-block">
+              <div class="form-block-item">
+                <athome-customhouse-part-image-picker
+                  [formatShow]="true"
+                  [numberShow]="true"
+                  [number]="5"
+                  (urlList)="setImageUrlList($event)"
+                  (deleteImage)="deleteCompanyImage($event)"
+                ></athome-customhouse-part-image-picker>
+              </div>
+            </div>
+          </div>
+          <div class="box" formGroupName="companyMovie">
+            <h3>会社紹介・メッセージ動画</h3>
+            <div class="form-block">
+              <div class="form-block-item">
+                <span
+                  >会社を紹介する動画や、伝えたいメッセージの動画が登録できます。<br />形式　：MOV,
+                  MP4<br />サイズ：60MBまで</span
+                >
+                <div class="video-box">
+                  <div class="video_tmb">
+                    <video
+                      src="{{ store.kaishaDougaPath$ | ngrxPush }}"
+                      controls
+                    ></video>
+                    <p
+                      class="file-name"
+                      *ngIf="store.kaishaDougaFileName$ | ngrxPush"
+                    >
+                      {{ store.kaishaDougaFileName$ | ngrxPush }}
+                    </p>
+                  </div>
+                  <div class="btns">
+                    <label class="btn green">
+                      <input
+                        type="file"
+                        accept="video/mp4,video/quicktime"
+                        class="button"
+                        formControlName="kaishaDouga"
+                        (change)="registerMovie($event)"
+                      />
+                      動画を登録する
+                      <i class="fa-solid fa-arrow-up-from-bracket icon"></i>
+                    </label>
+                    <button
+                      type="button"
+                      *ngIf="
+                        (store.kaishaDougaPath$ | ngrxPush) &&
+                        !(store.isUpload$ | ngrxPush)
+                      "
+                      class="btn delete"
+                      (click)="deleteMovie()"
+                    >
+                      削除する
+                    </button>
+                    <p class="error" *ngIf="store.kaishaDougaError$ | ngrxPush">
+                      {{ store.kaishaDougaError$ | ngrxPush }}
+                    </p>
+                    <p class="note" *ngIf="store.isUpload$ | ngrxPush">
+                      アップロード中… {{ store.uploadProgress$ | ngrxPush }}%
+                    </p>
+                    <progress
+                      class="progress"
+                      [value]="store.uploadProgress$ | ngrxPush"
+                      max="100"
+                      *ngIf="store.isUpload$ | ngrxPush"
+                    ></progress>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box" formGroupName="companyAdvantage">
+            <h3>会社のつよみ</h3>
+            <div class="form-block">
+              <table class="form-block-table border">
+                <colgroup>
+                  <col width="220" />
+                </colgroup>
+                <tbody>
+                  <tr formGroupName="kodawari1">
+                    <th>こだわり①</th>
+                    <td>
+                      <div class="form-block-item">
+                        <p class="form-block-item_title">タイトル</p>
+                        <input
+                          type="text"
+                          name="title"
+                          placeholder="会社のこだわりのタイトルが入力できます。"
+                          maxlength="200"
+                          class=""
+                          formControlName="title"
+                        />
+                      </div>
+                      <div
+                        _ngcontent-serverapp-c1676739353=""
+                        class="form-block-item"
+                      >
+                        <p class="form-block-item_title">内容</p>
+                        <textarea
+                          name="shousai"
+                          placeholder="会社のこだわりの説明が入力できます。"
+                          maxlength="600"
+                          class=""
+                          rows="3"
+                          formControlName="shousai"
+                        ></textarea>
+                      </div>
+                      <div class="form-block-item">
+                        <p class="form-block-item_title">画像登録</p>
+                        <athome-customhouse-part-image-picker
+                          [formatShow]="true"
+                          [number]="1"
+                          (url)="
+                            setImageUrl(
+                              $event,
+                              companyAdvantageForm.controls.kodawari1.controls
+                                .gazou
+                            )
+                          "
+                          (deleteImage)="
+                            deleteFile(
+                              companyAdvantageForm.controls.kodawari1.controls
+                                .gazou
+                            )
+                          "
+                        ></athome-customhouse-part-image-picker>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr formGroupName="kodawari2">
+                    <th>こだわり➁</th>
+                    <td>
+                      <div class="form-block-item">
+                        <p class="form-block-item_title">タイトル</p>
+                        <input
+                          type="text"
+                          name="title"
+                          placeholder="会社のこだわりのタイトルが入力できます。"
+                          maxlength="200"
+                          class=""
+                          formControlName="title"
+                        />
+                      </div>
+                      <div
+                        _ngcontent-serverapp-c1676739353=""
+                        class="form-block-item"
+                      >
+                        <p class="form-block-item_title">内容</p>
+                        <textarea
+                          name="shousai"
+                          placeholder="会社のこだわりの説明が入力できます。"
+                          maxlength="600"
+                          class=""
+                          formControlName="shousai"
+                        ></textarea>
+                      </div>
+                      <div class="form-block-item">
+                        <p class="form-block-item_title">画像登録</p>
+                        <athome-customhouse-part-image-picker
+                          [formatShow]="true"
+                          [number]="1"
+                          (url)="
+                            setImageUrl(
+                              $event,
+                              companyAdvantageForm.controls.kodawari2.controls
+                                .gazou
+                            )
+                          "
+                          (deleteImage)="
+                            deleteFile(
+                              companyAdvantageForm.controls.kodawari2.controls
+                                .gazou
+                            )
+                          "
+                        ></athome-customhouse-part-image-picker>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr formGroupName="kodawari3">
+                    <th>こだわり➂</th>
+                    <td>
+                      <div class="form-block-item">
+                        <p class="form-block-item_title">タイトル</p>
+                        <input
+                          type="text"
+                          name="title"
+                          placeholder="会社のこだわりのタイトルが入力できます。"
+                          maxlength="200"
+                          class=""
+                          formControlName="title"
+                        />
+                      </div>
+                      <div
+                        _ngcontent-serverapp-c1676739353=""
+                        class="form-block-item"
+                      >
+                        <p class="form-block-item_title">内容</p>
+                        <textarea
+                          name="shousai"
+                          placeholder="会社のこだわりの説明が入力できます。"
+                          maxlength="600"
+                          class=""
+                          formControlName="shousai"
+                        ></textarea>
+                      </div>
+                      <div class="form-block-item">
+                        <p class="form-block-item_title">画像登録</p>
+                        <athome-customhouse-part-image-picker
+                          [formatShow]="true"
+                          [number]="1"
+                          (url)="
+                            setImageUrl(
+                              $event,
+                              companyAdvantageForm.controls.kodawari3.controls
+                                .gazou
+                            )
+                          "
+                          (deleteImage)="
+                            deleteFile(
+                              companyAdvantageForm.controls.kodawari3.controls
+                                .gazou
+                            )
+                          "
+                        ></athome-customhouse-part-image-picker>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="box" formGroupName="visibilitySettings">
+            <h3>公開設定</h3>
+            <div class="form-block">
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  公開開始日
+                  <span class="label necessary">必須</span>
+                </p>
+
+                <input
+                  type="date"
+                  name="openStart"
+                  formControlName="openStart"
+                  required
+                  [ngClass]="
+                    visibilitySettingsForm.controls.openStart.invalid
+                      ? 'error'
+                      : ''
+                  "
+                />
+                <p
+                  class="error"
+                  *ngIf="visibilitySettingsForm.controls.openStart.errors?.['required']"
+                >
+                  公開開始日を入力してください。
+                </p>
+              </div>
+              <div class="form-block-item openEnd">
+                <p class="form-block-item_title">
+                  公開終了日
+                  <span class="label necessary">必須</span>
+                </p>
+                <ul class="column">
+                  <li>
+                    <input
+                      type="radio"
+                      name="openEnd"
+                      formControlName="openEndSelection"
+                      value="false"
+                      id="noSetOpenEnd"
+                      required
+                      [ngClass]="
+                        visibilitySettingsForm.controls.openEndSelection
+                          .value &&
+                        visibilitySettingsForm.controls.openEnd.invalid
+                          ? 'error'
+                          : ''
+                      "
+                      (change)="changeStartEndSelection()"
+                    />
+                    <label for="noSetOpenEnd">
+                      <span>指定なし</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="openEnd"
+                      formControlName="openEndSelection"
+                      id="openEnd"
+                      value="true"
+                      required
+                      [ngClass]="
+                        visibilitySettingsForm.controls.openEndSelection
+                          .value &&
+                        visibilitySettingsForm.controls.openEnd.invalid
+                          ? 'error'
+                          : ''
+                      "
+                      (change)="changeStartEndSelection()"
+                    />
+                    <label for="openEnd">
+                      <span>日付を選択する</span>
+                      <input
+                        type="date"
+                        name="openEnd"
+                        formControlName="openEnd"
+                        [ngStyle]="{
+                          opacity: visibilitySettingsForm.controls
+                            .openEndSelection.value
+                            ? 1
+                            : 0.5
+                        }"
+                        (change)="changeStartEndSelection()"
+                      />
+                    </label>
+                  </li>
+                </ul>
+                <p
+                  class="error"
+                  *ngIf="
+                    visibilitySettingsForm.controls.openEndSelection.value &&
+                    !visibilitySettingsForm.controls.openEnd.value
+                  "
+                >
+                  公開終了日を選択してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  公開状態
+                  <span class="label necessary">必須</span>
+                </p>
+
+                <select
+                  type="search"
+                  name="koukaiJoutai"
+                  formControlName="koukaiJoutai"
+                  required
+                  class="mw138"
+                >
+                  <ng-container *ngFor="let option of koukaiJoutaiOptions">
+                    <option [ngValue]="option.value">{{ option.nm }}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="submit">
+            <div class="btns">
+              <button type="button" class="back" (click)="onBackPressed()">
+                <i class="fa-solid fa-angle-left"></i>
+                戻る
+              </button>
+              <button type="button" class="preview" (click)="previewData()">
+                プレビュー
+              </button>
+            </div>
+            <input
+              type="button"
+              value="変更する"
+              (click)="onEditButtonClick()"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer
+  #fixedFotter
+></athome-customhouse-part-fixed-footer>
+
+<!-- 変更確認モーダル -->
+<athome-customhouse-part-modal-change-confirm
+  (buttonClick)="editCompany()"
+  #editModal
+></athome-customhouse-part-modal-change-confirm>
+
+<!-- ページ遷移モーダル -->
+<athome-customhouse-part-modal-page-transition-confirm
+  (buttonClick)="pageTransition()"
+  #pageTransitionConfirmModal
+></athome-customhouse-part-modal-page-transition-confirm>
+
+<!-- 施工対応エリア選択モーダル -->
+<div class="modal" [@modal]="selectConstructionAreaModal ? 'open' : 'close'">
+  <div class="modal_bg" (click)="closeAreaModal()"></div>
+  <div
+    #modalWrapper
+    class="modal_wrapper area"
+    [ngClass]="{ show: selectConstructionAreaModal }"
+    [ngStyle]="{ height: contentOver ? '100%' : 'auto' }"
+  >
+    <button type="button" class="close" (click)="closeAreaModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <form [formGroup]="selectedPrefectureList" (ngSubmit)="selectedArea()">
+      <div class="scroll-contents">
+        <p class="note">
+          都道府県・市区郡選択をしてください。<br />
+          チェックボックスをクリックで選択状態/非選択状態が切り替えられます。<br />
+          市区郡選択エリアは、都道府県名横のボタンで切り替え可能です。<br /><br />
+          各都道府県選択時はその都道府県のすべての市区郡が選択状態となります。
+        </p>
+        <div class="contents" #scrollContents>
+          <div class="sidemenu">
+            <cdk-accordion class="accordion">
+              <cdk-accordion-item
+                *ngFor="
+                  let areaPrefectures of prefectureList;
+                  let index = index
+                "
+                #accordionItem="cdkAccordionItem"
+                class="accordion-item"
+                role="button"
+                tabindex="0"
+                [attr.id]="'accordion-header-' + index"
+                [attr.aria-expanded]="accordionItem.expanded"
+                [attr.aria-controls]="'accordion-body-' + index"
+              >
+                <div
+                  class="accordion-item-header"
+                  (click)="accordionItem.toggle(); isContentOver()"
+                >
+                  <span class="accordion-item-description">
+                    <i
+                      [ngClass]="
+                        accordionItem.expanded
+                          ? 'fa-solid fa-circle-minus'
+                          : 'fa-solid fa-circle-plus'
+                      "
+                      [style.transform]="
+                        accordionItem.expanded ? '' : 'rotate(-180deg)'
+                      "
+                    ></i>
+                  </span>
+                  {{ areaPrefectures.areaNm }}
+                </div>
+                <div
+                  class="accordion-item-body"
+                  role="region"
+                  [style.height]="accordionItem.expanded ? '' : '0'"
+                  [attr.id]="'accordion-body-' + index"
+                  [attr.aria-labelledby]="'accordion-header-' + index"
+                  [@accordion]="accordionItem.expanded ? 'open' : 'close'"
+                >
+                  <ng-container
+                    *ngFor="let prefecture of areaPrefectures.prefData"
+                  >
+                    <ul>
+                      <li>
+                        <input
+                          type="radio"
+                          name="selectPrefecture"
+                          formControlName="selectPrefecture"
+                          [value]="prefecture.prefCode"
+                          id="{{ prefecture.prefRomaji }}"
+                          (click)="selectedPrefecture(prefecture)"
+                        />
+                        <label for="{{ prefecture.prefRomaji }}">
+                          <span>{{ prefecture.prefNm }}</span>
+                        </label>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </div>
+              </cdk-accordion-item>
+            </cdk-accordion>
+          </div>
+          <div class="mainmenu">
+            <div class="checked-area">
+              <p class="bold">選択したエリア</p>
+              <div *ngIf="selectingAreaData.length > 0">
+                <div
+                  *ngFor="let selectingPrefecture of selectingAreaData"
+                  class="area-prefecture"
+                >
+                  <span class="prefecture">
+                    {{ selectingPrefecture.prefecture.prefNm }}
+                  </span>
+                  ＞
+                  <p>
+                    <ng-container
+                      *ngIf="
+                        selectingPrefecture.cities[0].code === '000' &&
+                          selectingPrefecture.cities[0].isChecked;
+                        else selectedCities
+                      "
+                    >
+                      <span>
+                        <span>全域</span>
+                      </span>
+                    </ng-container>
+                    <ng-template #selectedCities>
+                      <span
+                        *ngFor="
+                          let city of selectingPrefecture.cities;
+                          first as first;
+                          last as last
+                        "
+                      >
+                        <span *ngIf="city.isChecked"
+                          >{{ city.name }}<span *ngIf="!last">、</span></span
+                        >
+                      </span>
+                    </ng-template>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="city">
+              <p class="bold" *ngIf="!selectedAreaPrefecture.prefCd">
+                左のメニューから都道府県を選択してください。
+              </p>
+              <div *ngIf="selectedAreaPrefecture.prefCd">
+                <mat-checkbox
+                  class="allcheck"
+                  [checked]="(store.cityInfo$ | ngrxPush)[0].isChecked"
+                  (change)="changeSelectedAll($event.checked)"
+                >
+                  {{ selectedAreaPrefecture.prefNm }}全域
+                </mat-checkbox>
+                <div class="city-list">
+                  <ng-container
+                    *ngFor="
+                      let city of store.cityInfo$ | ngrxPush;
+                      first as first
+                    "
+                  >
+                    <div *ngIf="!first">
+                      <mat-checkbox
+                        [checked]="city.isChecked"
+                        (change)="cityCheckboxChange(city)"
+                      >
+                        {{ city.name }}
+                      </mat-checkbox>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="submit">
+        <input type="submit" value="選択する" />
+        <input type="reset" value="キャンセル" (click)="closeAreaModal()" />
+      </div>
+    </form>
+  </div>
+</div>

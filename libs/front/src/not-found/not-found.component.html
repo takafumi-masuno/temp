@@ -1,0 +1,300 @@
+<!-- <athome-csite-pc-part-header [type]="type" [is404]="true"></athome-csite-pc-part-header> -->
+
+<div class="container">
+  <div class="container-inner">
+    <div class="top-content">
+      <h1 class="top-content__title">お探しのページが見つかりません。</h1>
+      <div class="top-content__text">
+        <p>この度はアットホームをご利用いただきありがとうございます。</p>
+        <p>
+          誠に恐れ入りますが、お客様がアクセスしようとしたページがみつかりませんでした。<br />
+          お探しのページはすでに削除されたか、名前が変更されたか、アドレスが間違っている可能性がございます。
+        </p>
+        <p>お手数ですが下記よりお求めのページをお探しください。</p>
+      </div>
+    </div>
+    <div class="recomend-content"></div>
+    <div class="recomend-content"></div>
+    <div class="select-content">
+      <div class="select-content__box">
+        <span>
+          <img
+            [src]="'assets/pc/not-found/img_borrow.png' | cfdAssets"
+            alt="借りる"
+            width="70"
+            height="70"
+            loading="lazy"
+          />
+          <p>借りる</p>
+        </span>
+        <div class="select-content__wrap">
+          <a
+            class="select-content__link select-content__link--br"
+            href="/chintai/"
+            ><img
+              width="24"
+              height="24"
+              alt="賃貸"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃貸</a
+          >
+          <a class="select-content__link-small" href="/chintai/mansion/"
+            ><img
+              width="8"
+              height="12"
+              alt="賃貸マンション"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />賃貸マンション</a
+          >
+          <a class="select-content__link-small" href="/chintai/apart/"
+            ><img
+              width="8"
+              height="12"
+              alt="賃貸アパート"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />賃貸アパート</a
+          >
+          <a class="select-content__link-small" href="/chintai/kodate/"
+            ><img
+              width="8"
+              height="12"
+              alt="賃貸一戸建て"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />賃貸一戸建て</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.rent_store + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="賃店舗"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃店舗</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.rent_office + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="賃事務所"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃事務所</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.rent_parking + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="賃駐車場"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃駐車場</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.rent_tochi + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="賃土地"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃土地</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.rent_souko + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="賃倉庫"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃倉庫</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.rent_other + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="賃貸ビル・その他"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />賃貸ビル・その他</a
+          >
+        </div>
+      </div>
+      <div class="select-content__box">
+        <span>
+          <img
+            [src]="'assets/pc/not-found/img_buy.png' | cfdAssets"
+            alt="買う"
+            width="70"
+            height="70"
+            loading="lazy"
+          />
+          <p>買う</p>
+        </span>
+        <div class="select-content__wrap">
+          <a
+            class="select-content__link select-content__link--br"
+            href="/mansion/"
+            ><img
+              width="24"
+              height="24"
+              alt="マンション"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />マンション</a
+          >
+          <a class="select-content__link-small" href="/mansion/shinchiku/"
+            ><img
+              width="8"
+              height="12"
+              alt="新築マンション・分譲マンション"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />新築マンション・分譲マンション</a
+          >
+          <a class="select-content__link-small" href="/mansion/chuko/"
+            ><img
+              width="8"
+              height="12"
+              alt="中古マンション"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />中古マンション</a
+          >
+          <a
+            class="select-content__link-small"
+            href="/mansion/chuko/reform-renovation/"
+            ><img
+              width="8"
+              height="12"
+              alt="リフォームリノベーションマンション"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />リフォームリノベーションマンション</a
+          >
+          <a class="select-content__link-small" href="/mansion/ownerchange/"
+            ><img
+              width="8"
+              height="12"
+              alt="オーナーチェンジマンション"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />オーナーチェンジマンション</a
+          >
+          <a
+            class="select-content__link select-content__link--br"
+            href="/kodate/"
+            ><img
+              width="24"
+              height="24"
+              alt="一戸建て"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />一戸建て</a
+          >
+          <a class="select-content__link-small" href="/kodate/shinchiku/"
+            ><img
+              width="8"
+              height="12"
+              alt="新築一戸建て・分譲一戸建て"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />新築一戸建て・分譲一戸建て</a
+          >
+          <a class="select-content__link-small" href="/kodate/chuko/"
+            ><img
+              width="8"
+              height="12"
+              alt="中古一戸建て"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />中古一戸建て</a
+          >
+          <a
+            class="select-content__link-small select-content__link-small--br"
+            href="/kodate/chuko/reform-renovation/"
+            ><img
+              width="8"
+              height="12"
+              alt="リフォームリノベーション一戸建て"
+              [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+            />リフォームリノベーション一戸建て</a
+          >
+          <a class="select-content__link" href="/tochi/"
+            ><img
+              width="24"
+              height="24"
+              alt="売土地"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />売土地</a
+          >
+          <a class="select-content__link" [href]="'/' + itemArt.buy_store + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="売店舗"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />売店舗</a
+          >
+          <a
+            class="select-content__link"
+            [href]="'/' + itemArt.buy_office + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="売事務所"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />売事務所</a
+          >
+          <a class="select-content__link" [href]="'/' + itemArt.buy_other + '/'"
+            ><img
+              width="24"
+              height="24"
+              alt="売その他"
+              [src]="'assets/pc/not-found/icon_circle-arrow.svg' | cfdAssets"
+            />売その他</a
+          >
+        </div>
+      </div>
+      <a href="/estate/" class="select-content__box">
+        <span>
+          <img
+            [src]="'assets/pc/not-found/img_society.png' | cfdAssets"
+            alt="不動産会社を探す"
+            width="70"
+            height="70"
+            loading="lazy"
+          />
+          <p>
+            不動産会社を探す<small class="select-content__box-small-text"
+              >アットホーム加盟店</small
+            >
+          </p>
+        </span>
+      </a>
+      <a href="/assess/" class="select-content__box">
+        <span>
+          <img
+            [src]="'assets/pc/not-found/img_sell.png' | cfdAssets"
+            alt="売る"
+            width="70"
+            height="70"
+            loading="lazy"
+          />
+          <p>
+            売る<small class="select-content__box-small-text"
+              >不動産一括査定依頼サービス</small
+            >
+          </p>
+        </span>
+      </a>
+      <a href="/" class="select-content__box select-content__box--top">
+        <span>
+          <img
+            width="16"
+            height="24"
+            alt="トップページへ"
+            [src]="'assets/pc/not-found/icon_arrow-red.svg' | cfdAssets"
+          />
+          <p>トップページへ</p>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>

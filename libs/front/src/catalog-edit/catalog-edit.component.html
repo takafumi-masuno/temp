@@ -1,0 +1,295 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrapper">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <h2>カタログ変更</h2>
+      <athome-customhouse-part-error
+        [errorList]="errorList"
+      ></athome-customhouse-part-error>
+      <div class="register">
+        <form class="form" [formGroup]="registrationForm">
+          <div class="box">
+            <div class="form-block">
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  商号
+                  <span class="label necessary">必須</span>
+                </p>
+                <p
+                  class="shougou"
+                  *ngIf="
+                    shougou &&
+                    (this.storeAppFacade.user$ | ngrxPush)?.permissions?.atUser
+                  "
+                >
+                  {{ shougou }}
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  カタログ種別
+                  <span class="label necessary">必須</span>
+                </p>
+                <ul class="column">
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogType"
+                      value="総合カタログ"
+                      id="general"
+                      required
+                      [ngClass]="
+                        catalogTypeForm.invalid && previewed ? 'error' : ''
+                      "
+                      [formControl]="catalogTypeForm"
+                    />
+                    <label for="general">
+                      <span>総合カタログ</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogType"
+                      id="byProduct"
+                      value="商品別カタログ"
+                      required
+                      [ngClass]="
+                        catalogTypeForm.invalid && previewed ? 'error' : ''
+                      "
+                      [formControl]="catalogTypeForm"
+                    />
+                    <label for="byProduct">
+                      <span>商品別カタログ</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogType"
+                      id="examoles"
+                      value="施工実例集"
+                      required
+                      [ngClass]="
+                        catalogTypeForm.invalid && previewed ? 'error' : ''
+                      "
+                      [formControl]="catalogTypeForm"
+                    />
+                    <label for="examoles">
+                      <span>施工実例集</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogType"
+                      id="interiorExamples"
+                      value="interiorExamples"
+                      required
+                      [ngClass]="
+                        catalogTypeForm.invalid && previewed ? 'error' : ''
+                      "
+                      [formControl]="catalogTypeForm"
+                    />
+                    <label for="interiorExamples">
+                      <span>インテリア実例集</span>
+                    </label>
+                  </li>
+                </ul>
+                <p class="error" *ngIf="catalogTypeForm.invalid && previewed">
+                  カタログ種別を選択してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">カタログメディア</p>
+                <ul class="column">
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogMedia"
+                      id="book"
+                      value="書籍"
+                      [formControl]="catalogMediaForm"
+                    />
+                    <label for="book">
+                      <span>書籍</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogMedia"
+                      id="web"
+                      value="Web"
+                      [formControl]="catalogMediaForm"
+                    />
+                    <label for="web">
+                      <span>Web</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="catalogMedia"
+                      id="video"
+                      value="動画"
+                      [formControl]="catalogMediaForm"
+                    />
+                    <label for="video">
+                      <span>動画</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  カタログ名
+                  <span class="label necessary">必須</span>
+                </p>
+                <input
+                  type="text"
+                  name="catalogName"
+                  placeholder="例）剛木造「超空間の家スマート」"
+                  required
+                  [formControl]="catalogNameForm"
+                  [ngClass]="
+                    (catalogNameForm.touched && catalogNameForm.invalid) ||
+                    (catalogNameForm.untouched && previewed)
+                      ? 'error'
+                      : ''
+                  "
+                />
+                <p
+                  class="error"
+                  *ngIf="
+                    (catalogNameForm.touched && catalogNameForm.invalid) ||
+                    (catalogNameForm.untouched && previewed)
+                  "
+                >
+                  カタログ名を入力してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  カタログ概要
+                  <span class="label necessary">必須</span>
+                </p>
+                <textarea
+                  name="catalogGaiyou"
+                  placeholder="例）オンリーワンの木造注文住宅。「こんな家に住みたい」住人十色の家族のカタチに応える。自由度の高い空間設計でお好みの住まいづくりを。"
+                  required
+                  [formControl]="catalogGaiyouForm"
+                  [ngClass]="
+                    (catalogGaiyouForm.touched && catalogGaiyouForm.invalid) ||
+                    (catalogGaiyouForm.untouched && previewed)
+                      ? 'error'
+                      : ''
+                  "
+                >
+                </textarea>
+                <p
+                  class="error"
+                  *ngIf="
+                    (catalogGaiyouForm.touched && catalogGaiyouForm.invalid) ||
+                    (catalogGaiyouForm.untouched && previewed)
+                  "
+                >
+                  カタログ概要を入力してください。
+                </p>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">カタログタグ</p>
+                <button class="btn gray" (click)="tagModal.open()">
+                  カタログタグを選択する
+                </button>
+                <ul class="tags" *ngIf="catalogTag && catalogTag.length">
+                  <li *ngFor="let catalog of catalogTag">
+                    <span>{{ catalog }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="form-block-item companyImage">
+                <p class="form-block-item_title">カタログ画像</p>
+                <div class="image-box">
+                  <p class="note" *ngIf="!imgFilePath">
+                    ファイルを選択してください。
+                  </p>
+                  <div class="image" *ngIf="imgFilePath">
+                    <img [src]="imgSrc" alt="" />
+                  </div>
+                  <p class="file-name" *ngIf="imgFilePath">{{ imgFileName }}</p>
+                  <label class="btn upload">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      (change)="onChangeImgFileInput($event)"
+                    />
+                    ファイルを選択
+                  </label>
+                </div>
+              </div>
+              <div class="form-block-item">
+                <p class="form-block-item_title">
+                  公開状態
+                  <span class="label necessary">必須</span>
+                </p>
+                <select
+                  type="search"
+                  name="status"
+                  [formControl]="statusForm"
+                  required
+                  class="mw138"
+                >
+                  <option value="公開中">公開</option>
+                  <option value="非公開">非公開</option>
+                  <option value="下書き">下書き</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="submit">
+            <div class="btns">
+              <button class="back" (click)="onClickBack()">
+                <i class="fa-solid fa-angle-left"></i>
+                戻る
+              </button>
+              <button class="preview" (click)="previewData()">
+                プレビュー
+              </button>
+            </div>
+            <input type="submit" value="変更する" (click)="onClickSubmit()" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer></athome-customhouse-part-fixed-footer>
+
+<!-- タグ選択モーダル -->
+<athome-customhouse-part-modal-tag-picker
+  #tagModal
+  (showCatalogTagFromChild)="setCatalogTag($event)"
+  [catalog]="true"
+  [checked]="(this.store.catalog$ | ngrxPush)?.catalogTag"
+></athome-customhouse-part-modal-tag-picker>
+
+<!-- 変更確認モーダル -->
+<athome-customhouse-part-modal-change-confirm
+  #changeModal
+  (buttonClick)="editCatalog()"
+></athome-customhouse-part-modal-change-confirm>
+
+<!-- ページ遷移モーダル -->
+<athome-customhouse-part-modal-page-transition-confirm
+  (buttonClick)="this.router.navigate(['catalog'])"
+  #pageTransitionModal
+></athome-customhouse-part-modal-page-transition-confirm>

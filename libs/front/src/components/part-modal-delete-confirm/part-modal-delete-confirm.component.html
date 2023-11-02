@@ -1,0 +1,23 @@
+<div
+  id="delete-modal"
+  class="modal"
+  [ngClass]="{ show: showDeleteModal }"
+  [@modal]="showDeleteModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+  <div class="modal_wrapper confirm" confirm>
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <p>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      登録済みの情報を削除します。よろしいですか。
+    </p>
+    <div class="btns">
+      <button type="button" class="delete" (click)="passClickDeleteEvent()">
+        削除する
+      </button>
+      <button type="button" class="cancel" (click)="close()">キャンセル</button>
+    </div>
+  </div>
+</div>

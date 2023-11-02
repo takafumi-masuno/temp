@@ -1,0 +1,23 @@
+<div
+  id="pageTransiton-modal"
+  class="modal"
+  [ngClass]="{ show: showPageTransitionModal }"
+  [@modal]="showPageTransitionModal ? 'open' : 'close'"
+>
+  <div class="modal_bg" (click)="close()"></div>
+  <div class="modal_wrapper confirm">
+    <button type="button" class="close" (click)="close()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <p>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>
+        このページから移動しますか。<br />入力された情報は保存されません。
+      </span>
+    </p>
+    <div class="btns">
+      <button type="button" class="submit" (click)="onClick()">移動する</button>
+      <button type="button" class="cancel" (click)="close()">キャンセル</button>
+    </div>
+  </div>
+</div>

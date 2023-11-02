@@ -1,0 +1,335 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  />
+</head>
+<div class="wrapper">
+  <athome-customhouse-part-header></athome-customhouse-part-header>
+  <div class="inner">
+    <athome-customhouse-part-side-menu></athome-customhouse-part-side-menu>
+    <div class="contents">
+      <div class="search">
+        <h2>カタログ一覧</h2>
+        <athome-customhouse-part-error
+          [errorList]="this.errorMessages"
+          [errorTopList]="true"
+          [errorBottomList]="true"
+        ></athome-customhouse-part-error>
+        <athome-customhouse-part-completion
+          *ngIf="deleted"
+          selectedItem="カタログ"
+        ></athome-customhouse-part-completion>
+        <div class="search-inner">
+          <form class="form">
+            <div class="form-block">
+              <div class="form-block-item">
+                <label for="memberName">
+                  商号
+                  <span class="label necessary">必須</span>
+                </label>
+                <input
+                  type="text"
+                  name="memberName"
+                  placeholder="例）アットホーム株式会社"
+                  required
+                  [value]="shougou"
+                  (change)="changeInput($event, 'shougou')"
+                  *ngIf="
+                    (storeAppFacade.user$ | ngrxPush)?.permissions?.atUser;
+                    else otherPermission
+                  "
+                />
+                <ng-template #otherPermission>
+                  <div
+                    type="text"
+                    name="memberName"
+                    placeholder="例）アットホーム株式会社"
+                    required
+                  >
+                    {{ shougou }}
+                  </div>
+                </ng-template>
+              </div>
+              <div class="form-block-item">
+                <label for="catalogNm">カタログ名</label>
+                <input
+                  type="text"
+                  name="catalogNm"
+                  placeholder=""
+                  (change)="changeInput($event, 'catalogNm')"
+                  [value]="catalogNm"
+                />
+              </div>
+              <div class="form-block-item">
+                <label for="catalogType">カタログ種別</label>
+                <select
+                  name="catalogType"
+                  [style.color]="fontColor"
+                  (change)="changeSelect($event.target.value, 'catalogType')"
+                  [(ngModel)]="catalogType"
+                >
+                  <option [value]="undefined">すべて</option>
+                  <option
+                    *ngFor="let catalogType of catalogTypeOptions"
+                    [value]="catalogType.nm"
+                  >
+                    {{ catalogType.nm }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-block-item">
+                <label for="catalogMedia">カタログメディア</label>
+                <select
+                  name="catalogMedia"
+                  [style.color]="fontColor"
+                  (change)="changeSelect($event.target.value, 'catalogMedia')"
+                  [(ngModel)]="catalogMedia"
+                >
+                  <option [value]="undefined">すべて</option>
+                  <option
+                    *ngFor="let catalogMedia of catalogMediaOptions"
+                    [value]="catalogMedia.nm"
+                  >
+                    {{ catalogMedia.nm }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-block-item">
+                <label>カタログタグ</label>
+                <button
+                  type="button"
+                  class="btn gray"
+                  (click)="tagModal.open()"
+                >
+                  カタログタグを選択する
+                </button>
+              </div>
+              <div class="form-block-item">
+                <label for="status">公開状態</label>
+                <select
+                  name="status"
+                  [style.color]="fontColor"
+                  (change)="changeSelect($event.target.value, 'status')"
+                  [(ngModel)]="status"
+                >
+                  <option [ngValue]="undefined">すべて</option>
+                  <option
+                    *ngFor="let status of releaseStatusOptions"
+                    [value]="status.nm"
+                  >
+                    {{ status.nm }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <ul class="tags">
+              <li *ngFor="let tag of tags">
+                <span>{{ tag }}</span>
+              </li>
+            </ul>
+            <div class="submit">
+              <input
+                type="button"
+                value="検索する"
+                (click)="onSearchButtonClick()"
+              />
+              <input
+                type="reset"
+                value="クリア"
+                (click)="onClearButtonClick()"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        class="result"
+        *ngIf="(this.store.total$ | ngrxPush) > 0 && displaySearchResultAreaFlg"
+      >
+        <athome-customhouse-part-search-result
+          [total]="this.store.total$ | ngrxPush"
+          [page]="this.store.page$ | ngrxPush"
+          [displayNum]="this.store.displayNum$ | ngrxPush"
+        ></athome-customhouse-part-search-result>
+        <div class="scroll-contents">
+          <table
+            mat-table
+            [dataSource]="this.store.catalogList$ | ngrxPush"
+            matSort
+            (matSortChange)="sortChange($event)"
+            class="mat-elevation-z8"
+          >
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef class="fixed"></th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                class="fixed"
+              >
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="shougou">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by shougou"
+                class="fixed"
+              >
+                商号
+              </th>
+              <td mat-cell *matCellDef="let element" class="fixed">
+                {{ element.shougou }}
+              </td>
+            </ng-container>
+
+            <!-- catalogNm Column -->
+            <ng-container matColumnDef="catalogNm">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by catalogNm"
+                class="fixed"
+              >
+                カタログ名
+              </th>
+              <td mat-cell *matCellDef="let element" class="fixed">
+                {{ element.catalogNm }}
+              </td>
+            </ng-container>
+
+            <!-- catalogOutline Column -->
+            <ng-container matColumnDef="catalogGaiyou">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by catalogGaiyou"
+              >
+                カタログ概要
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.catalogGaiyou }}
+              </td>
+            </ng-container>
+
+            <!-- catalogType Column -->
+            <ng-container matColumnDef="catalogType">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by catalogType"
+              >
+                カタログ種別
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.catalogType }}
+              </td>
+            </ng-container>
+
+            <!-- catalogMedia Column -->
+            <ng-container matColumnDef="catalogMedia">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by catalogMedia"
+              >
+                カタログメディア
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.catalogMedia }}
+              </td>
+            </ng-container>
+
+            <!-- catalogTag Column -->
+            <ng-container matColumnDef="catalogTag">
+              <th mat-header-cell *matHeaderCellDef class="sortNone">
+                カタログタグ
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <ul class="tags">
+                  <li *ngFor="let item of element.catalogTag">
+                    <span>{{ item }}</span>
+                  </li>
+                </ul>
+              </td>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by status"
+              >
+                公開状態
+              </th>
+              <td mat-cell *matCellDef="let element" class="status">
+                {{ element.koukaiJoutai }}
+              </td>
+            </ng-container>
+
+            <!-- detail Column -->
+            <ng-container matColumnDef="detail">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <a href="catalog/{{ element.catalogId }}">
+                  <button type="button">詳細</button>
+                </a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{
+                status_private:
+                  (row | ngrxPush).koukaiJoutai ===
+                  releaseStatusOptions['非公開']
+              }"
+            ></tr>
+          </table>
+        </div>
+
+        <athome-customhouse-part-pagination
+          [page]="this.store.page$ | ngrxPush"
+          [total]="this.store.total$ | ngrxPush"
+          [displayNum]="this.store.displayNum$ | ngrxPush"
+          (selectPageNumber)="onClickPageNationButtonClick($event)"
+        ></athome-customhouse-part-pagination>
+      </div>
+      <div
+        *ngIf="!(this.store.total$ | ngrxPush) && displaySearchResultAreaFlg"
+        class="no-result"
+      >
+        <div class="inner">
+          <i class="fa-solid fa-magnifying-glass icon"></i>
+          <p>
+            お探しの条件に該当するカタログはありません。<br />
+            別の条件をお試しください。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <athome-customhouse-part-footer></athome-customhouse-part-footer>
+</div>
+<athome-customhouse-part-fixed-footer></athome-customhouse-part-fixed-footer>
+
+<!-- タグ選択モーダル -->
+<athome-customhouse-part-modal-tag-picker
+  [catalog]="true"
+  (showCatalogTagFromChild)="onReceiveTagData($event)"
+  #tagModal
+  [catalog]="true"
+></athome-customhouse-part-modal-tag-picker>
