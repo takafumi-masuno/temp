@@ -18,6 +18,7 @@ import { PartModalChangeConfirmModule } from '../components/part-modal-change-co
 import { PartModalPageTransitionConfirmModule } from '../components/part-modal-page-transition-confirm';
 import { PartErrorModule } from '../components/part-error';
 import { PartImagePickerModule } from '../components/part-image-picker/part-image-picker.module';
+import { PartVisibilitySettingsFormModule } from '../components/part-visibility-settings-form/part-visibility-settings-form.module';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
     PartModalChangeConfirmModule,
     PartModalPageTransitionConfirmModule,
     PartImagePickerModule,
+    PartVisibilitySettingsFormModule,
   ],
   exports: [RouterModule],
   providers: [CompanyEditService],

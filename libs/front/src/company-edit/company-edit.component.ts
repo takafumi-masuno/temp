@@ -12,6 +12,7 @@ import {
   FormArray,
   FormBuilder,
   FormControl,
+  FormGroup,
   Validators,
 } from '@angular/forms';
 import { PartModalPageTransitionConfirmComponent } from '../components/part-modal-page-transition-confirm';
@@ -754,5 +755,9 @@ export class CompanyEditComponent implements OnInit {
       },
     };
     this.store.registerCompany(registerCompanyRequest);
+  }
+
+  updateForm(formGroup: FormGroup) {
+    this.visibilitySettingsForm = formGroup;
   }
 }
