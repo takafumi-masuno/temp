@@ -1,3 +1,4 @@
+import { SegmentType } from '../../shared/constants';
 import { IPrefecture, ICityInfo } from '../../shared/models';
 
 /**
@@ -104,10 +105,10 @@ export interface ICompanyInfo {
   areaTodouhukenCd: string[];
   areaSikugunCd: ICityInfo[][];
   areaBikou: string;
-  tsubotankaFrom: number;
-  tsubotankaTo: number;
-  hontaikakakuFrom: number;
-  hontaikakakuTo: number;
+  tsubotankaFrom: string;
+  tsubotankaTo: string;
+  hontaikakakuFrom: string;
+  hontaikakakuTo: string;
   afterServiceTeikiTenken?: string;
   kanseiHoshou?: string;
   kasiHoshou?: string;
@@ -347,4 +348,8 @@ export interface IUploadVideoResponse {
  */
 export interface IDeleteFileRequest {
   deleteList: string[];
+}
+
+export interface ITokuchouType extends SegmentType {
+  isChecked: boolean;
 }

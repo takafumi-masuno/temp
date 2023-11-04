@@ -1,36 +1,32 @@
 <div *ngIf="number <= 2 && !pdfUpload">
   <div [ngClass]="{ btnCenter: btnCenter }">
-    <p
-      class="file-format"
-      [ngClass]="{ show: formatShow }"
-      *ngIf="!henkou && !imgFilePath"
-    >
+    <p class="file-format" [ngClass]="{ show: formatShow }">
       形式：PNG, GIF, JPEG
       <span [ngClass]="{ show: numberShow, number: number }"
         >件数：{{ number }}件まで</span
       >
     </p>
-    <label class="uploadBtn" *ngIf="!henkou && !imgFilePath">
+    <label class="uploadBtn" *ngIf="!imgFileName">
       <input
         type="file"
-        accept="image/*"
+        accept=".png,.gif,.jpeg,.jpg"
         (change)="onChangeImgFileInput($event)"
       />
       画像を追加
     </label>
-    <div class="image-box" *ngIf="henkou || imgFilePath">
+    <div class="image-box" *ngIf="imgFileName">
       <div class="image">
         <img [src]="imgSrc" alt="" />
       </div>
       <p class="file-name">{{ imgFileName }}</p>
       <div class="change-btns">
-        <button class="uploadResetBtn" (click)="resetImgFileInput($event)">
+        <button class="uploadResetBtn" (click)="resetImgFileInput()">
           削除
         </button>
         <label class="uploadChangeBtn">
           <input
             type="file"
-            accept="image/*"
+            accept=".png,.gif,.jpeg,.jpg"
             (change)="onChangeImgFileInput($event)"
           />
           変更
@@ -41,16 +37,17 @@
       (click)="imageRotate(90)"
       class="image-rotate"
       [ngClass]="{ show: imageUploadShow }"
-      *ngIf="btnCenter && (henkou || imgFilePath)"
+      *ngIf="btnCenter && imgFileName"
     >
       <i class="fa-solid fa-rotate-right"></i>
     </button>
   </div>
-  <p class="error" *ngIf="error">エラーメッセージです。</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
 </div>
+
 <!-- 画像一括アップロード -->
 <div *ngIf="number >= 2 && !pdfUpload">
-  <p class="file-format" [ngClass]="{ show: formatShow }" *ngIf="!filesUpload">
+  <p class="file-format" [ngClass]="{ show: formatShow }">
     形式：PNG, GIF, JPEG
     <span [ngClass]="{ show: numberShow, number: number }"
       >件数：{{ number }}件まで</span
@@ -61,7 +58,7 @@
       type="file"
       #fileInput
       (change)="onFileSelected($event)"
-      accept="image/*"
+      accept=".png,.gif,.jpeg,.jpg"
       multiple
     />
     画像を追加
@@ -78,7 +75,7 @@
           <label class="uploadChangeBtn">
             <input
               type="file"
-              accept="image/*"
+              accept=".png,.gif,.jpeg,.jpg"
               (change)="onFileChange($event, i)"
             />
             変更
@@ -87,33 +84,32 @@
       </div>
     </ng-container>
   </div>
-  <p class="error" *ngIf="error">エラーメッセージです。</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
 </div>
+
 <!-- PDF -->
 <div *ngIf="pdfUpload">
-  <label class="uploadBtn" *ngIf="!henkou && !imgFilePath">
+  <label class="uploadBtn" *ngIf="!imgFileName">
     <input
       type="file"
-      accept="	application/pdf"
+      accept="application/pdf"
       (change)="onChangeImgFileInput($event)"
     />
     PDFを追加
   </label>
-  <div class="image-box" *ngIf="henkou || imgFilePath">
+  <div class="image-box" *ngIf="imgFileName">
     <p class="file-name">{{ imgFileName }}</p>
     <div class="change-btns">
-      <button class="uploadResetBtn" (click)="resetImgFileInput($event)">
-        削除
-      </button>
+      <button class="uploadResetBtn" (click)="resetImgFileInput()">削除</button>
       <label class="uploadChangeBtn">
         <input
           type="file"
-          accept="	application/pdf"
+          accept="application/pdf"
           (change)="onChangeImgFileInput($event)"
         />
         変更
       </label>
     </div>
   </div>
-  <p class="error" *ngIf="error">エラーメッセージです。</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
 </div>

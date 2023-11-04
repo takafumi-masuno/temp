@@ -32,6 +32,7 @@ import {
   IRegisterCompanyRequest,
   ISelectedArea,
   ISelectedCityInfo,
+  ITokuchouType,
 } from './models/company-edit.model';
 import { filter, map } from 'rxjs';
 import { PartModalChangeConfirmComponent } from '../components/part-modal-change-confirm';
@@ -105,19 +106,19 @@ export class CompanyEditComponent implements OnInit {
     ),
     areaBikou: ['', [Validators.required]],
     tsubotankaFrom: [
-      0,
+      '',
       [Validators.required, this.validationService.checkDecimalNumber(50)],
     ],
     tsubotankaTo: [
-      0,
+      '',
       [Validators.required, this.validationService.checkDecimalNumber(50)],
     ],
     hontaikakakuFrom: [
-      0,
+      '',
       [Validators.required, this.validationService.checkDecimalNumber(50)],
     ],
     hontaikakakuTo: [
-      0,
+      '',
       [Validators.required, this.validationService.checkDecimalNumber(50)],
     ],
     afterServiceTeikiTenken: [''],
@@ -262,7 +263,10 @@ export class CompanyEditComponent implements OnInit {
   kensetsuKyokaKubunOptions: SegmentType[] = [];
 
   /** サービスの特徴タグ */
-  tokuchouTypeTags: SegmentType[] = SegmentValueMst.SegmentValue.TOKUCHOU_TYPE;
+  tokuchouTypeTags: ITokuchouType[] =
+    SegmentValueMst.SegmentValue.TOKUCHOU_TYPE.map((type) => {
+      return { isChecked: false, ...type };
+    });
 
   /** 会社説明タイトルサンプル */
   setumeiSample = [
@@ -337,11 +341,11 @@ export class CompanyEditComponent implements OnInit {
     this.store.kenchikuKaishaInfo$
       .pipe(filter((x) => !!x))
       .subscribe((data) => {
-        console.log(data);
         this.companyProfileForm.patchValue({
           kaishaType: data.kaishaType,
           toriatsukaiKubun: data.toriatsukaiKubun,
           areaTodouhukenCd: data.areaTodouhukenCd,
+          areaBikou: data.areaBikou,
           tsubotankaFrom: data.tsubotankaFrom,
           tsubotankaTo: data.tsubotankaTo,
           hontaikakakuFrom: data.hontaikakakuFrom,
@@ -388,12 +392,23 @@ export class CompanyEditComponent implements OnInit {
             gazou: data.kodawariGazou3,
           },
         });
-        this.visibilitySettingsForm.patchValue({
-          openStart: data.openStart,
-          openEndSelection: data.openEnd ? true : false,
-          openEnd: data.openEnd,
-          koukaiJoutai: data.koukaiJoutai,
+        // 施工対応エリア設定
+        const prefectures = data.areaTodouhukenCd.map((code) =>
+          this.prefectureService.getPrefecture(code)
+        );
+        this.selectingAreaData = prefectures.map((prefecture, index) => {
+          return {
+            prefecture: prefecture,
+            cities: data.areaSikugunCd[index].map((city) => {
+              return { isChecked: true, ...city };
+            }),
+          };
         });
+        this.selectedArea();
+        // サービスの特徴設定
+        data.tokuchouType.map((typeValue) =>
+          this.changeTokuchouTypeTag(typeValue)
+        );
       });
   }
 
@@ -658,6 +673,8 @@ export class CompanyEditComponent implements OnInit {
    * @param value 変更したタグの値
    */
   changeTokuchouTypeTag(value: number) {
+    this.tokuchouTypeTags[value - 1].isChecked =
+      !this.tokuchouTypeTags[value - 1].isChecked;
     this.tokuchouTypeForm.markAllAsTouched();
     const array = this.tokuchouTypeForm.getRawValue();
     array.includes(value)
@@ -754,7 +771,8 @@ export class CompanyEditComponent implements OnInit {
         koukaiJoutai: visibilitySettingsFormControls.koukaiJoutai.value,
       },
     };
-    this.store.registerCompany(registerCompanyRequest);
+    console.log('変更リクエスト', registerCompanyRequest);
+    // this.store.registerCompany(registerCompanyRequest);
   }
 
   updateForm(formGroup: FormGroup) {

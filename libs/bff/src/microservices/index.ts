@@ -22,6 +22,7 @@ export * from './ms-get-permissions.service';
 export * from './ms-get-is-session.service';
 export * from './ms-kaiin.service';
 export * from './ms-city.service';
+export * from './ms-file.service';
 
 // 各画面
 export * from './ms-company-list.service';

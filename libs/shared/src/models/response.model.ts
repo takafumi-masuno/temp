@@ -1,7 +1,15 @@
 /**
+ * バリデーション込みの基本のレスポンス型
+ */
+export type BasicValidResponseType<T = null> =
+  | SuccessType<T>
+  | IError
+  | IValidationError;
+
+/**
  * 基本のレスポンス型
  */
-export type IBasicResponse = ISuccess | IError | IValidationError;
+export type BasicResponseType<T = null> = SuccessType<T> | IError;
 
 /**
  * 基本のエラーレスポンス型
@@ -11,6 +19,13 @@ export type IBasicErrorResponse = IError | IValidationError;
 /**
  * 成功時のレスポンスの型
  */
+export type SuccessType<T> = T extends null ? ISuccess : ISuccessResponse<T>;
+
+export interface ISuccessResponse<T> {
+  message: string;
+  body: T;
+}
+
 export interface ISuccess {
   message: string;
 }
@@ -32,7 +47,8 @@ export interface IValidationError {
 /**
  * BFFからフロントへの基本のレスポンス型
  */
-export interface IBasicBffResponse {
+export interface IBasicBffResponse<T> {
   code: number;
   message: string;
+  body?: T;
 }

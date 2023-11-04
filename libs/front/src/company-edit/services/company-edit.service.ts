@@ -18,7 +18,7 @@ import {
 import { Message, SegmentType, SegmentValueMst } from '../../shared/constants';
 import { ICityInfo } from '../../shared/models';
 import { FormArray, FormControl } from '@angular/forms';
-import { IBasicResponse } from '@shared/models';
+import { BasicValidResponseType } from '@shared/models';
 import { PrefectureService } from '../../shared/services';
 
 /** 動画サイズ上限 */
@@ -61,10 +61,10 @@ export class CompanyEditService {
       areaTodouhukenCd: data.areaTodouhukenCd,
       areaSikugunCd: data.areaSikugunCd,
       areaBikou: data.areaBikou,
-      tsubotankaFrom: parseFloat(data.tsubotankaFrom),
-      tsubotankaTo: parseFloat(data.tsubotankaTo),
-      hontaikakakuFrom: parseFloat(data.hontaikakakuFrom),
-      hontaikakakuTo: parseFloat(data.hontaikakakuTo),
+      tsubotankaFrom: data.tsubotankaFrom,
+      tsubotankaTo: data.tsubotankaTo,
+      hontaikakakuFrom: data.hontaikakakuFrom,
+      hontaikakakuTo: data.hontaikakakuTo,
       afterServiceTeikiTenken: data.afterServiceTeikiTenken,
       kanseiHoshou: data.kanseiHoshou,
       kasiHoshou: data.kasiHoshou,
@@ -155,14 +155,14 @@ export class CompanyEditService {
    * @param list 削除する画像・動画パスの一覧
    * @returns レスポンスメッセージ
    */
-  deleteFile(list: string[]): Observable<IBasicResponse> {
+  deleteFile(list: string[]): Observable<BasicValidResponseType> {
     const deleteFileRequest: IDeleteFileRequest = {
       deleteList: list,
     };
     const bffParams = new BffParams({
       directory: ['file', 'delete-file'],
     });
-    return this.api.postJSONContent<IBasicResponse>(
+    return this.api.postJSONContent<BasicValidResponseType>(
       bffParams,
       deleteFileRequest
     );
@@ -225,7 +225,7 @@ export class CompanyEditService {
     },
     kaishaDouga: string,
     deleteFileList: string[]
-  ): Observable<IBasicResponse> {
+  ): Observable<BasicValidResponseType> {
     let registerCompanyRequest: RegisterCompanyRequest;
     if (!request.companyProfile) {
       // アットホームユーザーの場合
@@ -393,7 +393,7 @@ export class CompanyEditService {
     const bffParams = new BffParams({
       directory: ['company-register', 'company'],
     });
-    return this.api.postJSONContent<IBasicResponse>(
+    return this.api.postJSONContent<BasicValidResponseType>(
       bffParams,
       registerCompanyRequest
     );

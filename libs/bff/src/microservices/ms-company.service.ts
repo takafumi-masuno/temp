@@ -63,11 +63,16 @@ export class MsCompanyService {
       setsumeiTitle:
         '檜の持ち味と棟梁の技術にこだわってつくる住まい。それが日本ハウスHDの選ばれる理由',
       setsumeiShousai: '会社説明内容が入力できます。',
-      kaishaGazou1: 'https://www.athome.com/image_files/path/kaisha/xxxx1.jpeg',
-      kaishaGazou2: 'https://www.athome.com/image_files/path/kaisha/xxxx2.jpeg',
-      kaishaGazou3: 'https://www.athome.com/image_files/path/kaisha/xxxx3.jpeg',
-      kaishaGazou4: 'https://www.athome.com/image_files/path/kaisha/xxxx4.jpeg',
-      kaishaGazou5: 'https://www.athome.com/image_files/path/kaisha/xxxx5.jpeg',
+      kaishaGazou1:
+        'https://m.media-amazon.com/images/I/61S5wsiSHjL._AC_SY110_.jpg',
+      kaishaGazou2:
+        'https://m.media-amazon.com/images/I/71ZMXqrB9XL._AC_SY110_.jpg',
+      kaishaGazou3:
+        'https://m.media-amazon.com/images/I/81ku0JFRedL._AC_SY110_.jpg',
+      kaishaGazou4:
+        'https://m.media-amazon.com/images/I/81l5YGuBV3L._AC_SY110_.jpg',
+      kaishaGazou5:
+        'https://m.media-amazon.com/images/I/51n20MY+0rL._AC_SY145_.jpg',
       kaishaDouga: 'https://www.athome.com/movie_files/path/kaisha/xxxxx.mp4',
       kodawariTitle1: '会社のこだわりのタイトル１',
       kodawariTitle2: '会社のこだわりのタイトル２',
@@ -79,11 +84,11 @@ export class MsCompanyService {
       kodawariShousai3:
         '会社のこだわりの説明３が入ります。会社のこだわりの説明３が入ります。会社のこだわりの説明３が入ります。会社のこだわりの説明３が入ります。会社のこだわりの説明３が入ります。会社のこだわりの説明３が入ります。',
       kodawariGazou1:
-        'https://www.athome.com/image_files/path/kodawari/xxxx1.jpeg',
+        'https://m.media-amazon.com/images/I/31Ii+h9mqoL._MCnd_AC_.jpg',
       kodawariGazou2:
-        'https://www.athome.com/image_files/path/kodawari/xxxx2.jpeg',
+        'https://m.media-amazon.com/images/I/311KN5imHlL._MCnd_AC_.jpg',
       kodawariGazou3:
-        'https://www.athome.com/image_files/path/kodawari/xxxx3.jpeg',
+        'https://m.media-amazon.com/images/I/21jMft9GYXL._MCnd_AC_.jpg',
       openStart: '2023-04-01',
       openEnd: '2023-12-31',
       koukaiJoutai: 3,
@@ -104,7 +109,7 @@ export class MsCompanyService {
     // return of({ detail: 'Invalid syntax for this request was provided.' });
 
     // TODO: ↓本実装想定処理
-    // return this.apiService.deleteJSONContent<IBasicResponse>(
+    // return this.apiService.deleteJSONContent<BasicValidResponseType>(
     //   new MicroserviceParams({
     //     type: MicroServiceType.detail,
     //     serviceName: 'companies',

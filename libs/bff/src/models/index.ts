@@ -16,3 +16,4 @@ export * from './ms-get-catalog-is-edit.model';
 export * from './ms-company.model';
 export * from './ms-kaiin.model';
 export * from './ms-city.model';
+export * from './ms-file.model';

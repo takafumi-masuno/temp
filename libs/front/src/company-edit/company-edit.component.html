@@ -584,6 +584,7 @@
                         type="checkbox"
                         name="tokuchouType"
                         id="tokuchouType-{{ tokuchouTypeTag.value }}"
+                        [checked]="tokuchouTypeTag.isChecked"
                         (change)="changeTokuchouTypeTag(tokuchouTypeTag.value)"
                       />
                       <label for="tokuchouType-{{ tokuchouTypeTag.value }}">
@@ -674,7 +675,7 @@
               </div>
             </div>
           </div>
-          <div class="box" formGroupName="companyMovie">
+          <div class="box">
             <h3>会社紹介・メッセージ動画</h3>
             <div class="form-block">
               <div class="form-block-item">
@@ -701,7 +702,6 @@
                         type="file"
                         accept="video/mp4,video/quicktime"
                         class="button"
-                        formControlName="kaishaDouga"
                         (change)="registerMovie($event)"
                       />
                       動画を登録する
@@ -776,7 +776,13 @@
                         <athome-customhouse-part-image-picker
                           [formatShow]="true"
                           [number]="1"
-                          (url)="
+                          [fileData]="{
+                            fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
+                              .kodawariGazou1FileName,
+                            fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
+                              .kodawariGazou1
+                          }"
+                          (fileUrl)="
                             setImageUrl(
                               $event,
                               companyAdvantageForm.controls.kodawari1.controls
@@ -825,7 +831,13 @@
                         <athome-customhouse-part-image-picker
                           [formatShow]="true"
                           [number]="1"
-                          (url)="
+                          [fileData]="{
+                            fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
+                              .kodawariGazou2FileName,
+                            fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
+                              .kodawariGazou2
+                          }"
+                          (fileUrl)="
                             setImageUrl(
                               $event,
                               companyAdvantageForm.controls.kodawari2.controls
@@ -874,7 +886,13 @@
                         <athome-customhouse-part-image-picker
                           [formatShow]="true"
                           [number]="1"
-                          (url)="
+                          [fileData]="{
+                            fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
+                              .kodawariGazou3FileName,
+                            fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
+                              .kodawariGazou3
+                          }"
+                          (fileUrl)="
                             setImageUrl(
                               $event,
                               companyAdvantageForm.controls.kodawari3.controls

@@ -19,6 +19,7 @@ import { CompanyListModule } from './company-list/company-list.module';
 import { SessionModule } from './session/session.module';
 import { CompanyEditModule } from './company-edit/company-edit.module';
 import { CityModule } from './city/city.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CityModule } from './city/city.module';
     CompanyListModule,
     CompanyEditModule,
     CityModule,
+    FileModule,
   ],
   providers: [AppService],
   controllers: [],
