@@ -1,0 +1,11 @@
+@charset 'utf-8';
+
+.openEnd {
+  .column {
+    gap: 4px 0;
+
+    input[type='date'] {
+      margin-left: 16px;
+    }
+  }
+}

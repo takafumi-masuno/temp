@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 
 /**
  * バリデーション関連のサービス
@@ -17,5 +22,18 @@ export class ValidationService {
       const regex = new RegExp(`^\\d{1,${maxDigits}}(\\.\\d+)?$`);
       return regex.test(inputValue) ? null : { isNotDecimalNumber: true };
     };
+  }
+
+  /**
+   * 公開終了日のカスタムバリデーション
+   */
+  startEndValidator(form: FormControl) {
+    if (!form.parent || !form.parent.controls) {
+      return null;
+    }
+    return form.parent.get('openEndSelection').value &&
+      !form.parent.get('openEnd').value
+      ? { required: true }
+      : null;
   }
 }
