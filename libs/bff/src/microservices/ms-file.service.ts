@@ -20,7 +20,7 @@ export class MsFileService {
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
-    const fileUrl = `http://www.test.co.jp/image-file/${hours}${minutes}${seconds}`;
+    const fileUrl = `http://www.test.co.jp/image-file/${hours}${minutes}${seconds}.jpeg`;
     return of({
       message: 'Success',
       body: {

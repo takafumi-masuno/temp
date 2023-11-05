@@ -666,11 +666,13 @@
             <div class="form-block">
               <div class="form-block-item">
                 <athome-customhouse-part-image-picker
-                  [formatShow]="true"
-                  [numberShow]="true"
+                  [showFormat]="true"
+                  [showNumber]="true"
                   [number]="5"
-                  (urlList)="setImageUrlList($event)"
+                  [fileData]="companyImageList"
+                  (fileUrl)="setImageUrlList($event)"
                   (deleteImage)="deleteCompanyImage($event)"
+                  (changeFile)="changeCompanyImage($event)"
                 ></athome-customhouse-part-image-picker>
               </div>
             </div>
@@ -774,14 +776,17 @@
                       <div class="form-block-item">
                         <p class="form-block-item_title">画像登録</p>
                         <athome-customhouse-part-image-picker
-                          [formatShow]="true"
+                          [showFormat]="true"
                           [number]="1"
-                          [fileData]="{
-                            fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
-                              .kodawariGazou1FileName,
-                            fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
-                              .kodawariGazou1
-                          }"
+                          [showRotate]="true"
+                          [fileData]="[
+                            {
+                              fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
+                                .kodawariGazou1FileName,
+                              fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
+                                .kodawariGazou1
+                            }
+                          ]"
                           (fileUrl)="
                             setImageUrl(
                               $event,
@@ -829,14 +834,17 @@
                       <div class="form-block-item">
                         <p class="form-block-item_title">画像登録</p>
                         <athome-customhouse-part-image-picker
-                          [formatShow]="true"
+                          [showFormat]="true"
                           [number]="1"
-                          [fileData]="{
-                            fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
-                              .kodawariGazou2FileName,
-                            fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
-                              .kodawariGazou2
-                          }"
+                          [showRotate]="true"
+                          [fileData]="[
+                            {
+                              fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
+                                .kodawariGazou2FileName,
+                              fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
+                                .kodawariGazou2
+                            }
+                          ]"
                           (fileUrl)="
                             setImageUrl(
                               $event,
@@ -884,14 +892,16 @@
                       <div class="form-block-item">
                         <p class="form-block-item_title">画像登録</p>
                         <athome-customhouse-part-image-picker
-                          [formatShow]="true"
+                          [showFormat]="true"
                           [number]="1"
-                          [fileData]="{
-                            fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
-                              .kodawariGazou3FileName,
-                            fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
-                              .kodawariGazou3
-                          }"
+                          [fileData]="[
+                            {
+                              fileName: (store.kenchikuKaishaInfo$ | ngrxPush)
+                                .kodawariGazou3FileName,
+                              fileSrc: (store.kenchikuKaishaInfo$ | ngrxPush)
+                                .kodawariGazou3
+                            }
+                          ]"
                           (fileUrl)="
                             setImageUrl(
                               $event,

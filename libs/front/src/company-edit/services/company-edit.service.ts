@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ApiService } from '@shared/services';
 import { BffParams } from '@shared/apis';
 import {
@@ -226,177 +226,71 @@ export class CompanyEditService {
     kaishaDouga: string,
     deleteFileList: string[]
   ): Observable<BasicValidResponseType> {
-    let registerCompanyRequest: RegisterCompanyRequest;
-    if (!request.companyProfile) {
-      // アットホームユーザーの場合
-      registerCompanyRequest = {
-        kenchikuKaishaInfo: {
-          kaishaType: 0,
-          toriatsukaiKubun: [],
-          areaTodouhukenCd: [],
-          areaSikugunCd: [],
-          areaBikou: '',
-          tsubotankaFrom: 0,
-          tsubotankaTo: 0,
-          hontaikakakuFrom: 0,
-          hontaikakakuTo: 0,
-          openStart: request.visibilitySettings.openStart,
-          openEnd: request.visibilitySettings.openEnd,
-          koukaiJoutai: request.visibilitySettings.koukaiJoutai,
-        },
-      };
-    } else {
-      // 建築会社ユーザーの場合
-      registerCompanyRequest = {
-        kenchikuKaishaInfo: {
-          kaishaType: request.companyProfile.kaishaType,
-          toriatsukaiKubun: request.companyProfile.toriatsukaiKubun,
-          areaTodouhukenCd: request.companyProfile.areaTodouhukenCd,
-          areaSikugunCd: request.companyProfile.areaSikugunCd.map(
-            (areaSikugun) => {
-              if (areaSikugun.includes('000')) {
-                return ['000'];
-              } else {
-                return areaSikugun;
-              }
+    const registerCompanyRequest: RegisterCompanyRequest = {
+      kenchikuKaishaInfo: {
+        kaishaType: request.companyProfile.kaishaType,
+        toriatsukaiKubun: request.companyProfile.toriatsukaiKubun,
+        areaTodouhukenCd: request.companyProfile.areaTodouhukenCd,
+        areaSikugunCd: request.companyProfile.areaSikugunCd.map(
+          (areaSikugun) => {
+            if (areaSikugun.includes('000')) {
+              return ['000'];
+            } else {
+              return areaSikugun;
             }
-          ),
-          areaBikou: request.companyProfile.areaBikou,
-          tsubotankaFrom: request.companyProfile.tsubotankaFrom,
-          tsubotankaTo: request.companyProfile.tsubotankaTo,
-          hontaikakakuFrom: request.companyProfile.hontaikakakuFrom,
-          hontaikakakuTo: request.companyProfile.hontaikakakuTo,
-          openStart: request.visibilitySettings.openStart,
-          openEnd: request.visibilitySettings.openEnd,
-          koukaiJoutai: request.visibilitySettings.koukaiJoutai,
-        },
-      };
-      if (request.companyProfile.afterServiceTeikiTenken) {
-        registerCompanyRequest.kenchikuKaishaInfo.afterServiceTeikiTenken =
-          request.companyProfile.afterServiceTeikiTenken;
-      }
-      if (request.companyProfile.kanseiHoshou) {
-        registerCompanyRequest.kenchikuKaishaInfo.kanseiHoshou =
-          request.companyProfile.kanseiHoshou;
-      }
-      if (request.companyProfile.kasiHoshou) {
-        registerCompanyRequest.kenchikuKaishaInfo.kasiHoshou =
-          request.companyProfile.kasiHoshou;
-      }
-      if (request.companyProfile.sonotaHoshou) {
-        registerCompanyRequest.kenchikuKaishaInfo.sonotaHoshou =
-          request.companyProfile.sonotaHoshou;
-      }
-      if (request.companyProfile.sekouJisseki) {
-        registerCompanyRequest.kenchikuKaishaInfo.sekouJisseki =
-          request.companyProfile.sekouJisseki;
-      }
-      if (request.companyProfile.sikakusya) {
-        registerCompanyRequest.kenchikuKaishaInfo.sikakusya =
-          request.companyProfile.sikakusya;
-      }
-      if (request.companyProfile.uriagedaka) {
-        registerCompanyRequest.kenchikuKaishaInfo.uriagedaka =
-          request.companyProfile.uriagedaka;
-      }
-      if (request.companyProfile.homePage) {
-        registerCompanyRequest.kenchikuKaishaInfo.homePage =
-          request.companyProfile.homePage;
-      }
-      if (request.companyProfile.kensetsuKyokaKubun) {
-        registerCompanyRequest.kenchikuKaishaInfo.kensetsuKyokaKubun =
-          request.companyProfile.kensetsuKyokaKubun;
-      }
-      if (request.companyProfile.kensetsuKyokaNo) {
-        registerCompanyRequest.kenchikuKaishaInfo.kensetsuKyokaNo =
-          request.companyProfile.kensetsuKyokaNo;
-      }
-      if (request.companyProfile.zimusyoTourokuNo) {
-        registerCompanyRequest.kenchikuKaishaInfo.zimusyoTourokuNo =
-          request.companyProfile.zimusyoTourokuNo;
-      }
-      if (request.companyProfile.tokuchouType.length) {
-        registerCompanyRequest.kenchikuKaishaInfo.tokuchouType =
-          request.companyProfile.tokuchouType.sort();
-      }
-      if (request.companyProfile.setsumeiTitle) {
-        registerCompanyRequest.kenchikuKaishaInfo.setsumeiTitle =
-          request.companyProfile.setsumeiTitle;
-      }
-      if (request.companyProfile.setsumeiShousai) {
-        registerCompanyRequest.kenchikuKaishaInfo.setsumeiShousai =
-          request.companyProfile.setsumeiShousai;
-      }
-      if (request.companyImage.kaishaGazou1) {
-        registerCompanyRequest.kenchikuKaishaInfo.kaishaGazou1 =
-          request.companyImage.kaishaGazou1;
-      }
-      if (request.companyImage.kaishaGazou2) {
-        registerCompanyRequest.kenchikuKaishaInfo.kaishaGazou2 =
-          request.companyImage.kaishaGazou2;
-      }
-      if (request.companyImage.kaishaGazou3) {
-        registerCompanyRequest.kenchikuKaishaInfo.kaishaGazou3 =
-          request.companyImage.kaishaGazou3;
-      }
-      if (request.companyImage.kaishaGazou4) {
-        registerCompanyRequest.kenchikuKaishaInfo.kaishaGazou4 =
-          request.companyImage.kaishaGazou4;
-      }
-      if (request.companyImage.kaishaGazou5) {
-        registerCompanyRequest.kenchikuKaishaInfo.kaishaGazou5 =
-          request.companyImage.kaishaGazou5;
-      }
-      if (kaishaDouga) {
-        registerCompanyRequest.kenchikuKaishaInfo.kaishaDouga = kaishaDouga;
-      }
-      if (request.companyAdvantage.kodawari1.title) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariTitle1 =
-          request.companyAdvantage.kodawari1.title;
-      }
-      if (request.companyAdvantage.kodawari1.shousai) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariShousai1 =
-          request.companyAdvantage.kodawari1.shousai;
-      }
-      if (request.companyAdvantage.kodawari1.gazou) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariGazou1 =
-          request.companyAdvantage.kodawari1.gazou;
-      }
-      if (request.companyAdvantage.kodawari2.title) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariTitle2 =
-          request.companyAdvantage.kodawari2.title;
-      }
-      if (request.companyAdvantage.kodawari2.shousai) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariShousai2 =
-          request.companyAdvantage.kodawari2.shousai;
-      }
-      if (request.companyAdvantage.kodawari2.gazou) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariGazou2 =
-          request.companyAdvantage.kodawari2.gazou;
-      }
-      if (request.companyAdvantage.kodawari3.title) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariTitle3 =
-          request.companyAdvantage.kodawari3.title;
-      }
-      if (request.companyAdvantage.kodawari3.shousai) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariShousai3 =
-          request.companyAdvantage.kodawari3.shousai;
-      }
-      if (request.companyAdvantage.kodawari3.gazou) {
-        registerCompanyRequest.kenchikuKaishaInfo.kodawariGazou3 =
-          request.companyAdvantage.kodawari3.gazou;
-      }
-      if (deleteFileList.length) {
-        registerCompanyRequest.deleteFiles = { list: deleteFileList };
-      }
+          }
+        ),
+        areaBikou: request.companyProfile.areaBikou,
+        tsubotankaFrom: request.companyProfile.tsubotankaFrom,
+        tsubotankaTo: request.companyProfile.tsubotankaTo,
+        hontaikakakuFrom: request.companyProfile.hontaikakakuFrom,
+        hontaikakakuTo: request.companyProfile.hontaikakakuTo,
+        afterServiceTeikiTenken: request.companyProfile.afterServiceTeikiTenken,
+        kanseiHoshou: request.companyProfile.kanseiHoshou,
+        kasiHoshou: request.companyProfile.kasiHoshou,
+        sonotaHoshou: request.companyProfile.sonotaHoshou,
+        sekouJisseki: request.companyProfile.sekouJisseki,
+        sikakusya: request.companyProfile.sikakusya,
+        uriagedaka: request.companyProfile.uriagedaka,
+        homePage: request.companyProfile.homePage,
+        kensetsuKyokaKubun: request.companyProfile.kensetsuKyokaKubun,
+        kensetsuKyokaNo: request.companyProfile.kensetsuKyokaNo,
+        zimusyoTourokuNo: request.companyProfile.zimusyoTourokuNo,
+        tokuchouType: request.companyProfile.tokuchouType.sort(),
+        setsumeiTitle: request.companyProfile.setsumeiTitle,
+        setsumeiShousai: request.companyProfile.setsumeiShousai,
+        kaishaGazou1: request.companyImage.kaishaGazou1,
+        kaishaGazou2: request.companyImage.kaishaGazou2,
+        kaishaGazou3: request.companyImage.kaishaGazou3,
+        kaishaGazou4: request.companyImage.kaishaGazou4,
+        kaishaGazou5: request.companyImage.kaishaGazou5,
+        kaishaDouga: kaishaDouga,
+        kodawariTitle1: request.companyAdvantage.kodawari1.title,
+        kodawariShousai1: request.companyAdvantage.kodawari1.shousai,
+        kodawariGazou1: request.companyAdvantage.kodawari1.gazou,
+        kodawariTitle2: request.companyAdvantage.kodawari2.title,
+        kodawariShousai2: request.companyAdvantage.kodawari2.shousai,
+        kodawariGazou2: request.companyAdvantage.kodawari2.gazou,
+        kodawariTitle3: request.companyAdvantage.kodawari3.title,
+        kodawariShousai3: request.companyAdvantage.kodawari3.shousai,
+        kodawariGazou3: request.companyAdvantage.kodawari3.gazou,
+        openStart: request.visibilitySettings.openStart,
+        openEnd: request.visibilitySettings.openEnd,
+        koukaiJoutai: request.visibilitySettings.koukaiJoutai,
+      },
+    };
+    if (deleteFileList.length) {
+      registerCompanyRequest.deleteFiles = { list: deleteFileList };
     }
+    console.log('リクエスト', registerCompanyRequest);
     const bffParams = new BffParams({
       directory: ['company-register', 'company'],
     });
-    return this.api.postJSONContent<BasicValidResponseType>(
-      bffParams,
-      registerCompanyRequest
-    );
+    // return this.api.postJSONContent<BasicValidResponseType>(
+    //   bffParams,
+    //   registerCompanyRequest
+    // );
+    return of({ detail: 'テスト' });
   }
 
   /**

@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
 import { CompanyEditService } from './services/company-edit.service';
 import { PartFixedFooterComponent } from '../components/part-fixed-footer';
 import { Message, SegmentType, SegmentValueMst } from '../shared/constants';
-import { IPrefecture } from '../shared/models';
+import { FileData, IChangeFileData, IPrefecture } from '../shared/models';
 import {
   IRegisterCompanyRequest,
   ISelectedArea,
@@ -313,6 +313,8 @@ export class CompanyEditComponent implements OnInit {
   /** 公開状態プルダウン選択肢 */
   koukaiJoutaiOptions: SegmentType[] = [];
 
+  companyImageList: FileData[] = [];
+
   ngOnInit() {
     // 公開状態プルダウン選択肢を設定
     this.koukaiJoutaiOptions =
@@ -409,6 +411,15 @@ export class CompanyEditComponent implements OnInit {
         data.tokuchouType.map((typeValue) =>
           this.changeTokuchouTypeTag(typeValue)
         );
+        // 会社画像設定
+        [...Array(5)]
+          .map((_, i) => i + 1)
+          .map((num) => {
+            this.companyImageList.push({
+              fileName: data[`kaishaGazou${num}FileName`],
+              fileSrc: data[`kaishaGazou${num}`],
+            });
+          });
       });
   }
 
@@ -437,14 +448,14 @@ export class CompanyEditComponent implements OnInit {
 
   /**
    * 一括アップロード時の画像URLをフォーム値に設定する
-   * @param data 画像のURLとインデックス
+   * @param data 画像のURL一覧
    */
-  setImageUrlList(data: { url: string; index: number }) {
+  setImageUrlList(data: string[]) {
     const control = this.companyImageForm.controls;
-    if (control[`kaishaGazou${data.index + 1}`].value) {
-      this.store.deleteImage(control[`kaishaGazou${data.index + 1}`].value);
-    }
-    control[`kaishaGazou${data.index + 1}`].setValue(data.url);
+    data.forEach((url, index) => {
+      control[`kaishaGazou${index + 1}`].setValue(url);
+    });
+    console.log('会社画像情報', control);
   }
 
   /**
@@ -476,14 +487,30 @@ export class CompanyEditComponent implements OnInit {
       }
     }
 
-    this.companyImageForm.reset();
+    this.companyImageForm.setValue({
+      kaishaGazou1: '',
+      kaishaGazou2: '',
+      kaishaGazou3: '',
+      kaishaGazou4: '',
+      kaishaGazou5: '',
+    });
 
-    let urlIndex = 0;
-    for (const key in formControls) {
-      if (formControls[key]) {
-        formControls[key].setValue(fileUrlList[urlIndex]);
-        urlIndex++;
+    fileUrlList.forEach((url, index) => {
+      formControls[`kaishaGazou${index + 1}`].setValue(url);
+    });
+  }
+
+  changeCompanyImage(fileData: IChangeFileData) {
+    if (fileData.url) {
+      const control = this.companyImageForm.controls;
+      if (control[`kaishaGazou${fileData.index + 1}`].value) {
+        this.store.deleteImage(
+          control[`kaishaGazou${fileData.index + 1}`].value
+        );
       }
+      control[`kaishaGazou${fileData.index + 1}`].setValue(fileData.url);
+    } else {
+      this.deleteCompanyImage(fileData.index);
     }
   }
 
@@ -771,10 +798,13 @@ export class CompanyEditComponent implements OnInit {
         koukaiJoutai: visibilitySettingsFormControls.koukaiJoutai.value,
       },
     };
-    console.log('変更リクエスト', registerCompanyRequest);
-    // this.store.registerCompany(registerCompanyRequest);
+    this.store.registerCompany(registerCompanyRequest);
   }
 
+  /**
+   * 公開設定フォーム更新
+   * @param formGroup フォームグループ
+   */
   updateForm(formGroup: FormGroup) {
     this.visibilitySettingsForm = formGroup;
   }

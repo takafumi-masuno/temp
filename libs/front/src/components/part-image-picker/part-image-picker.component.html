@@ -1,8 +1,8 @@
 <div *ngIf="number <= 2 && !pdfUpload">
-  <div [ngClass]="{ btnCenter: btnCenter }">
-    <p class="file-format" [ngClass]="{ show: formatShow }">
+  <div [ngClass]="{ btnCenter: showRotate }">
+    <p class="file-format" [ngClass]="{ show: showFormat }">
       形式：PNG, GIF, JPEG
-      <span [ngClass]="{ show: numberShow, number: number }"
+      <span [ngClass]="{ show: showNumber, number: number }"
         >件数：{{ number }}件まで</span
       >
     </p>
@@ -16,7 +16,7 @@
     </label>
     <div class="image-box" *ngIf="imgFileName">
       <div class="image">
-        <img [src]="imgSrc" alt="" />
+        <img [src]="imgSrc" alt="" id="selectedFileImage-{{ imgFileName }}" />
       </div>
       <p class="file-name">{{ imgFileName }}</p>
       <div class="change-btns">
@@ -34,10 +34,9 @@
       </div>
     </div>
     <button
-      (click)="imageRotate(90)"
+      (click)="rotateImage(90)"
       class="image-rotate"
-      [ngClass]="{ show: imageUploadShow }"
-      *ngIf="btnCenter && imgFileName"
+      *ngIf="showRotate && imgFileName"
     >
       <i class="fa-solid fa-rotate-right"></i>
     </button>
@@ -47,17 +46,17 @@
 
 <!-- 画像一括アップロード -->
 <div *ngIf="number >= 2 && !pdfUpload">
-  <p class="file-format" [ngClass]="{ show: formatShow }">
+  <p class="file-format" [ngClass]="{ show: showFormat }">
     形式：PNG, GIF, JPEG
-    <span [ngClass]="{ show: numberShow, number: number }"
+    <span [ngClass]="{ show: showNumber, number: number }"
       >件数：{{ number }}件まで</span
     >
   </p>
-  <label class="uploadBtn" *ngIf="!filesUpload">
+  <label class="uploadBtn" *ngIf="!selectedFiles.length">
     <input
       type="file"
       #fileInput
-      (change)="onFileSelected($event)"
+      (change)="onSelectedFiles($event)"
       accept=".png,.gif,.jpeg,.jpg"
       multiple
     />
@@ -67,9 +66,9 @@
     <ng-container *ngFor="let file of selectedFiles; let i = index">
       <div class="image-box">
         <div class="image">
-          <img [src]="file.dataUrl" alt="Image Preview" />
+          <img [src]="file.fileSrc" alt="Image Preview" />
         </div>
-        <p class="file-name">{{ file.name }}</p>
+        <p class="file-name">{{ file.fileName }}</p>
         <div class="change-btns">
           <button class="uploadResetBtn" (click)="onFileReset(i)">削除</button>
           <label class="uploadChangeBtn">
