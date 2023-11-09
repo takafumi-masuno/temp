@@ -5,6 +5,8 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { SegmentType, SegmentValueMst } from '../shared/constants';
 import { StoreAppFacade } from '../shared/stores/app';
 import { filter } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StoreSearchFacade } from '../shared/stores/store-search';
 
 @Component({
   selector: 'athome-customhouse-company-list',
@@ -19,7 +21,10 @@ export class CompanyListComponent implements OnInit {
   constructor(
     public store: CompanyListStore,
     public storeAppFacade: StoreAppFacade,
-    private _liveAnnouncer: LiveAnnouncer
+    private storeSearchFacade: StoreSearchFacade,
+    private _liveAnnouncer: LiveAnnouncer,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +55,7 @@ export class CompanyListComponent implements OnInit {
   koukaiJoutaiOptions: SegmentType[] = [];
 
   ngOnInit() {
+    const url = this.route.snapshot.paramMap.get('previousUrl');
     this.koukaiJoutaiOptions = this.createKoukaiJoutaiOptions(
       SegmentValueMst.SegmentValue.KOUKAI_JOUTAI
     );
@@ -62,6 +68,29 @@ export class CompanyListComponent implements OnInit {
         this.searchShougou = data?.info.shougou;
         this.searchShougouKana = data?.info.shougouKana;
       });
+
+    if (url === 'company-detail') {
+      this.storeSearchFacade.search$.subscribe((search) => {
+        this.searchKaiinNo = search.searchKaiinNo;
+        this.searchShougou = search.searchShougou;
+        this.searchShougouKana = search.searchShougouKana;
+        this.searchTel = search.searchTel;
+        this.selectValue = search.selectValue;
+      });
+      this.onSearch();
+    }
+  }
+
+  moveDetailPage(id: number) {
+    const prm = {
+      searchKaiinNo: this.searchKaiinNo,
+      searchShougou: this.searchShougou,
+      searchShougouKana: this.searchShougouKana,
+      searchTel: this.searchTel,
+      selectValue: this.selectValue,
+    };
+    this.storeSearchFacade.setSearch(prm);
+    this.router.navigate([`company/edit/${id}`]);
   }
 
   /**

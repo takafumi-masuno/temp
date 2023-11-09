@@ -15,24 +15,3 @@ export const getSearch = createSelector(
   getStoreSearchState,
   (state: State) => state.search
 );
-
-export const getFavObject = createSelector(
-  getStoreSearchState,
-  (state: State) => state.favObject
-);
-export const getFavCount = createSelector(
-  getStoreSearchState,
-  (state: State) => state.favCount
-);
-export const getConditionCount = createSelector(
-  getStoreSearchState,
-  (state: State) => state.conditionCount
-);
-export const getRecentObject = createSelector(
-  getStoreSearchState,
-  (state: State) => state.recentObject
-);
-export const getRecentCount = createSelector(
-  getStoreSearchState,
-  (state: State) => state.recentCount
-);

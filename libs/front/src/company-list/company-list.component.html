@@ -54,8 +54,8 @@
                 <label for="companyName">商号</label>
                 <ng-container
                   *ngIf="
-                    !(storeAppFacade.user$ | ngrxPush)?.permissions
-                      .atUserKengen;
+                    (storeAppFacade.user$ | ngrxPush)?.permissions
+                      .kenchikuKaishaUser;
                     else searchShougouInput
                   "
                 >
@@ -69,8 +69,8 @@
                     placeholder="例）アットホーム株式会社"
                     [(ngModel)]="searchShougou"
                     [disabled]="
-                      !(storeAppFacade.user$ | ngrxPush)?.permissions
-                        .atUserKengen
+                      (storeAppFacade.user$ | ngrxPush)?.permissions
+                        .kenchikuKaishaUser
                     "
                   />
                 </ng-template>
@@ -93,8 +93,8 @@
                 <label for="companyNameKana">商号（全角カナ）</label>
                 <ng-container
                   *ngIf="
-                    !(storeAppFacade.user$ | ngrxPush)?.permissions
-                      .atUserKengen;
+                    (storeAppFacade.user$ | ngrxPush)?.permissions
+                      .kenchikuKaishaUser;
                     else searchShougouKanaInput
                   "
                 >
@@ -108,8 +108,8 @@
                     placeholder="例）アットホームカブシキガイシャ"
                     [(ngModel)]="searchShougouKana"
                     [disabled]="
-                      !(storeAppFacade.user$ | ngrxPush)?.permissions
-                        .atUserKengen
+                      (storeAppFacade.user$ | ngrxPush)?.permissions
+                        .kenchikuKaishaUser
                     "
                   />
                 </ng-template>
@@ -229,7 +229,7 @@
             <ng-container matColumnDef="detail">
               <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let element">
-                <a href="company/{{ element.detail }}">
+                <a (click)="moveDetailPage(element.detail)">
                   <button type="button">詳細</button>
                 </a>
               </td>

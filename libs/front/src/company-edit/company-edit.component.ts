@@ -725,12 +725,13 @@ export class CompanyEditComponent implements OnInit {
    * 戻るボタン押下
    */
   onBackPressed() {
+    this.router.navigate(['/company', { previousUrl: 'company-detail' }]);
     if (
       this.companyEditForm.pristine &&
       !this.areaTodouhukenCdForm.touched &&
       !this.tokuchouTypeForm.touched
     ) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/company', { previousUrl: 'company-detail' }]);
     } else {
       this.pageTransitionConfirmModal.open();
     }
