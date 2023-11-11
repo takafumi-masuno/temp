@@ -91,6 +91,9 @@ export class PartImagePickerComponent implements OnInit {
               reader.readAsDataURL(target.files[0]);
               this.fileUrl.emit(response.body.url);
               break;
+            case 400:
+              this.error = response.message;
+              break;
             default:
               this.error = Message.Error.E0021;
           }
